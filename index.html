@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Cheung Prey - Educational Mobile AI Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { cyan: '#00f2fe', indigo: '#6366f1', purple: '#8b5cf6', emerald: '#10b981' }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Kantumruy Pro', 'Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Kantumruy+Pro:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-main: #020617;
+            --bg-secondary: rgba(15, 23, 42, 0.75);
+            --bg-card: rgba(15, 23, 42, 0.75);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --nav-bg: rgba(2, 6, 23, 0.85);
+            --grid-color: rgba(255, 255, 255, 0.05);
+            --mobile-frame-bg: #090d16;
+        }
+
+        html.light {
+            --bg-main: #f8fafc;
+            --bg-secondary: rgba(241, 245, 249, 0.85);
+            --bg-card: rgba(255, 255, 255, 0.88);
+            --border-color: rgba(203, 213, 225, 0.8);
+            --text-primary: #0f172a;
+            --text-secondary: #334155;
+            --text-muted: #64748b;
+            --nav-bg: rgba(255, 255, 255, 0.9);
+            --grid-color: rgba(15, 23, 42, 0.05);
+            --mobile-frame-bg: #ffffff;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', 'Kantumruy Pro', sans-serif;
+            scroll-behavior: smooth;
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        .glass-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            transition: background-color 0.4s ease, border-color 0.4s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-nav {
+            background: var(--nav-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .glow-cyan { box-shadow: 0 10px 30px -10px rgba(0, 242, 254, 0.25); }
+        .glow-indigo { box-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.25); }
+        .glow-purple { box-shadow: 0 10px 30px -10px rgba(139, 92, 246, 0.25); }
+
+        .bg-grid-pattern {
+            background-image: radial-gradient(var(--grid-color) 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+
+        @keyframes floatOrb1 {
+            0%, 100% { transform: translate(0px, 0px) scale(1); }
+            50% { transform: translate(60px, -40px) scale(1.15); }
+        }
+        @keyframes floatOrb2 {
+            0%, 100% { transform: translate(0px, 0px) scale(1); }
+            50% { transform: translate(-50px, 50px) scale(1.1); }
+        }
+
+        .animate-orb-1 { animation: floatOrb1 14s ease-in-out infinite; }
+        .animate-orb-2 { animation: floatOrb2 18s ease-in-out infinite; }
+
+        #neuralCanvas {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0; pointer-events: none; opacity: 0.65;
+        }
+    </style>
+</head>
+<body class="transition-colors duration-300 min-h-screen flex flex-col selection:bg-cyan-400 selection:text-slate-950">
+
+    <canvas id="neuralCanvas"></canvas>
+
+    <header class="sticky top-0 z-50 w-full glass-nav">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="#home" class="flex items-center gap-3.5 group">
+                <div class="relative w-11 h-11 rounded-2xl bg-gradient-to-tr from-cyan-400 via-indigo-500 to-purple-600 p-0.5 shadow-lg shadow-cyan-500/20 group-hover:scale-105 transition-transform duration-300">
+                    <div class="w-full h-full rounded-[14px] flex items-center justify-center relative overflow-hidden" style="background-color: var(--bg-main);">
+                        <svg class="w-7 h-7 text-cyan-400" viewBox="0 0 100 100" fill="none">
+                            <path d="M50 15L85 35V65L50 85L15 65V35L50 15Z" stroke="url(#logo-grad)" stroke-width="6" stroke-linejoin="round"/>
+                            <circle cx="50" cy="50" r="10" fill="url(#logo-grad)"/>
+                            <path d="M50 25V40M50 60V75M28 38L41 45M59 55L72 62M72 38L59 45M41 55L28 62" stroke="url(#logo-grad)" stroke-width="4" stroke-linecap="round"/>
+                            <defs>
+                                <linearGradient id="logo-grad" x1="15" y1="15" x2="85" y2="85">
+                                    <stop stop-color="#00f2fe"/>
+                                    <stop offset="1" stop-color="#6366f1"/>
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                </div>
+                <div>
+                    <span class="text-xl font-extrabold tracking-tight bg-gradient-to-r from-cyan-400 via-indigo-500 to-purple-500 bg-clip-text text-transparent">
+                        AI CHEUNG PREY
+                    </span>
+                    <span class="block text-[10px] font-bold tracking-widest uppercase -mt-0.5" style="color: var(--text-muted);">
+                        AI ជើងព្រៃ • Educational AI
+                    </span>
+                </div>
+            </a>
+
+            <nav class="hidden md:flex items-center gap-10 text-sm font-semibold tracking-wide">
+                <a href="#home" class="hover:text-cyan-400 transition-colors" style="color: var(--text-primary);">Home</a>
+                <a href="#features" class="hover:text-cyan-400 transition-colors" style="color: var(--text-primary);">Features</a>
+                <a href="#download" class="hover:text-cyan-400 transition-colors" style="color: var(--text-primary);">Download</a>
+            </nav>
+
+            <div class="flex items-center gap-4">
+                <button id="themeToggle" class="p-2.5 rounded-xl glass-card transition-transform hover:scale-105">
+                    <i class="fa-solid fa-moon text-cyan-400 text-lg"></i>
+                </button>
+                <a href="#download" class="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 via-indigo-600 to-purple-600 hover:opacity-90 text-white font-semibold text-sm shadow-lg shadow-indigo-500/20 transition-all">
+                    <i class="fa-solid fa-download"></i>
+                    <span>Download</span>
+                </a>
+                <button id="mobileMenuBtn" class="md:hidden p-2 rounded-lg text-slate-400">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="mobileMenu" class="hidden md:hidden border-t px-6 py-4 space-y-3 text-sm font-medium glass-card" style="border-color: var(--border-color);">
+            <a href="#home" class="block py-2 hover:text-cyan-400">Home</a>
+            <a href="#features" class="block py-2 hover:text-cyan-400">Features</a>
+            <a href="#download" class="block py-2 hover:text-cyan-400">Download</a>
+        </div>
+    </header>
+
+    <main class="flex-1 relative z-10">
+        <section id="home" class="relative overflow-hidden pt-16 pb-20 lg:pt-24 lg:pb-28 bg-grid-pattern">
+            <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-cyan-500/15 rounded-full blur-[140px] pointer-events-none animate-orb-1"></div>
+            <div class="absolute top-1/3 right-10 w-[400px] h-[400px] bg-indigo-600/15 rounded-full blur-[140px] pointer-events-none animate-orb-2"></div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="text-center max-w-4xl mx-auto">
+                    <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full glass-card text-xs font-semibold text-cyan-400 mb-8 border border-cyan-500/30">
+                        <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                        <span class="tracking-wide uppercase">AI CHEUNG PREY - EDUCATIONAL INTELLIGENCE</span>
+                    </div>
+
+                    <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-tight mb-6" style="color: var(--text-primary);">
+                        Engineered for Unmatched <br class="hidden sm:inline">
+                        <span class="bg-gradient-to-r from-cyan-400 via-indigo-500 to-purple-500 bg-clip-text text-transparent">
+                            Educational Intelligence
+                        </span>
+                    </h1>
+
+                    <p class="text-base sm:text-lg max-w-2xl mx-auto font-normal leading-relaxed mb-10" style="color: var(--text-secondary);">
+                        Your personal AI learning companion for <strong style="color: var(--text-primary);">STEM, Mathematics, Languages, Coding, and Science</strong> on mobile.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+                        <a href="#download" class="w-full sm:w-auto px-10 py-4 rounded-xl bg-gradient-to-r from-cyan-500 via-indigo-600 to-purple-600 hover:opacity-95 text-white font-bold text-base flex items-center justify-center gap-3 shadow-xl shadow-cyan-500/20 transition-all">
+                            <i class="fa-solid fa-download text-lg"></i>
+                            <span>Download / ដោនឡូត</span>
+                        </a>
+                        <a href="#features" class="w-full sm:w-auto px-8 py-4 rounded-xl glass-card font-semibold text-base flex items-center justify-center gap-3">
+                            <i class="fa-solid fa-atom text-cyan-400"></i>
+                            <span style="color: var(--text-primary);">Explore Subjects</span>
+                        </a>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto text-left">
+                        <div class="group relative p-6 rounded-2xl glass-card glow-cyan overflow-hidden hover:border-cyan-500/50">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 flex items-center justify-center text-xl">
+                                    <i class="fa-solid fa-graduation-cap"></i>
+                                </div>
+                                <span class="text-[11px] font-mono font-semibold px-2.5 py-1 rounded-md bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">Active</span>
+                            </div>
+                            <div class="text-3xl sm:text-4xl font-extrabold font-mono mb-1" style="color: var(--text-primary);">150,000+</div>
+                            <div class="text-sm font-semibold" style="color: var(--text-secondary);">Active Students</div>
+                            <div class="text-xs mt-0.5" style="color: var(--text-muted);">សិស្សកំពុងសិក្សា</div>
+                        </div>
+
+                        <div class="group relative p-6 rounded-2xl glass-card glow-indigo overflow-hidden hover:border-indigo-500/50">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center text-xl">
+                                    <i class="fa-solid fa-flask-vial"></i>
+                                </div>
+                                <span class="text-[11px] font-mono font-semibold px-2.5 py-1 rounded-md bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">Modules</span>
+                            </div>
+                            <div class="text-3xl sm:text-4xl font-extrabold font-mono mb-1" style="color: var(--text-primary);">STEM + 5</div>
+                            <div class="text-sm font-semibold" style="color: var(--text-secondary);">Core Domains</div>
+                            <div class="text-xs mt-0.5" style="color: var(--text-muted);">គណិត, ភាសា, កូដ, វិទ្យា</div>
+                        </div>
+
+                        <div class="group relative p-6 rounded-2xl glass-card glow-purple overflow-hidden hover:border-purple-500/50">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center text-xl">
+                                    <i class="fa-solid fa-bolt"></i>
+                                </div>
+                                <span class="text-[11px] font-mono font-semibold px-2.5 py-1 rounded-md bg-purple-500/10 text-purple-400 border border-purple-500/20">Fast</span>
+                            </div>
+                            <div class="text-3xl sm:text-4xl font-extrabold font-mono text-cyan-400 mb-1">&lt; 12ms</div>
+                            <div class="text-sm font-semibold" style="color: var(--text-secondary);">Instant AI Latency</div>
+                            <div class="text-xs mt-0.5" style="color: var(--text-muted);">ល្បឿនឆ្លើយតប</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="py-20 border-t" style="border-color: var(--border-color); background-color: var(--bg-secondary);">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-16">
+                    <h2 class="text-xs font-bold uppercase tracking-widest text-cyan-400 mb-2">Educational Modules</h2>
+                    <p class="text-3xl sm:text-4xl font-extrabold" style="color: var(--text-primary);">Tailored for Student Growth</p>
+                    <p class="mt-3 text-sm sm:text-base" style="color: var(--text-secondary);">Comprehensive AI guidance engineered for academic success.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="p-6 rounded-2xl glass-card border border-cyan-500/40 hover:border-cyan-400 group relative overflow-hidden">
+                        <div class="absolute top-3 right-3 px-2 py-0.5 rounded text-[10px] font-bold bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">STEM</div>
+                        <div class="w-12 h-12 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-xl mb-5"><i class="fa-solid fa-atom"></i></div>
+                        <h3 class="text-lg font-bold mb-1" style="color: var(--text-primary);">STEM Education</h3>
+                        <p class="text-xs font-semibold text-cyan-400 mb-3">វិទ្យាសាស្ត្រ បច្ចេកវិទ្យា វិស្វកម្ម គណិត</p>
+                        <p class="text-xs leading-relaxed" style="color: var(--text-secondary);">Integrated learning: Science, Technology, Engineering, Mathematics.</p>
+                    </div>
+
+                    <div class="p-6 rounded-2xl glass-card hover:border-indigo-500/40 group">
+                        <div class="w-12 h-12 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-xl mb-5"><i class="fa-solid fa-calculator"></i></div>
+                        <h3 class="text-lg font-bold mb-1" style="color: var(--text-primary);">Mathematics & Physics</h3>
+                        <p class="text-xs font-semibold text-indigo-400 mb-3">គណិតវិទ្យា & រូបវិទ្យា</p>
+                        <p class="text-xs leading-relaxed" style="color: var(--text-secondary);">Algebra, Geometry, Trigonometry, Calculus, Physics problems.</p>
+                    </div>
+
+                    <div class="p-6 rounded-2xl glass-card hover:border-purple-500/40 group">
+                        <div class="w-12 h-12 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center text-xl mb-5"><i class="fa-solid fa-language"></i></div>
+                        <h3 class="text-lg font-bold mb-1" style="color: var(--text-primary);">Khmer & English</h3>
+                        <p class="text-xs font-semibold text-purple-400 mb-3">ភាសាខ្មែរ & អង់គ្លេស</p>
+                        <p class="text-xs leading-relaxed" style="color: var(--text-secondary);">Khmer composition, English grammar, translation.</p>
+                    </div>
+
+                    <div class="p-6 rounded-2xl glass-card hover:border-emerald-500/40 group">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-xl mb-5"><i class="fa-solid fa-code"></i></div>
+                        <h3 class="text-lg font-bold mb-1" style="color: var(--text-primary);">Coding & IT</h3>
+                        <p class="text-xs font-semibold text-emerald-400 mb-3">ការសរសេរកូដ</p>
+                        <p class="text-xs leading-relaxed" style="color: var(--text-secondary);">Python, Web Dev, C++, algorithms with clear examples.</p>
+                    </div>
+
+                    <div class="p-6 rounded-2xl glass-card hover:border-amber-500/40 md:col-span-2 lg:col-span-2">
+                        <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-xl mb-5"><i class="fa-solid fa-microscope"></i></div>
+                        <h3 class="text-lg font-bold mb-1" style="color: var(--text-primary);">General Science & History</h3>
+                        <p class="text-xs font-semibold text-amber-400 mb-3">វិទ្យាសាស្ត្រ & ប្រវត្តិវិទ្យា</p>
+                        <p class="text-xs leading-relaxed" style="color: var(--text-secondary);">Chemistry, Biology, Earth Science, historical contexts.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="download" class="py-20 border-t" style="border-color: var(--border-color);">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-14">
+                    <h2 class="text-xs font-bold uppercase tracking-widest text-cyan-400 mb-2">Mobile Web Application</h2>
+                    <p class="text-3xl sm:text-4xl font-extrabold" style="color: var(--text-primary);">AI Cheung Prey Mobile</p>
+                    <p class="mt-3 text-sm" style="color: var(--text-secondary);">Download and install our learning assistant.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center max-w-5xl mx-auto">
+                    <div class="lg:col-span-5 flex justify-center">
+                        <div class="relative w-full max-w-[280px] h-[520px] rounded-[42px] p-3.5 border-4 shadow-2xl glow-cyan" style="background-color: var(--mobile-frame-bg); border-color: var(--border-color);">
+                            <div class="absolute top-5 left-1/2 -translate-x-1/2 w-28 h-5 rounded-full z-30" style="background-color: var(--bg-main);"></div>
+                            <div class="w-full h-full rounded-[32px] overflow-hidden flex flex-col pt-8 text-left" style="background-color: var(--bg-main);">
+                                <div class="px-4 py-3 border-b flex items-center justify-between" style="border-color: var(--border-color);">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-6 h-6 rounded-lg bg-gradient-to-tr from-cyan-400 to-indigo-600 flex items-center justify-center text-[10px] text-white font-bold">AI</div>
+                                        <span class="text-xs font-bold" style="color: var(--text-primary);">AI Cheung Prey</span>
+                                    </div>
+                                    <span class="text-[9px] font-mono px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400">STEM</span>
+                                </div>
+                                <div class="p-3.5 flex-1 space-y-3 overflow-y-auto">
+                                    <div class="p-2.5 rounded-xl border text-[11px]" style="background-color: var(--bg-secondary); border-color: var(--border-color); color: var(--text-primary);">
+                                        <span class="font-semibold text-cyan-400 block mb-0.5">student:</span>
+                                        តើ STEM មានអត្ថន័យដូចម្តេច?
+                                    </div>
+                                    <div class="p-2.5 rounded-xl border text-[11px]" style="background-color: var(--bg-card); border-color: var(--border-color); color: var(--text-primary);">
+                                        <span class="font-bold text-indigo-400 block mb-0.5">AI:</span>
+                                        STEM រួមមាន៖<br>• S: Science<br>• T: Technology<br>• E: Engineering<br>• M: Mathematics
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-7 p-8 rounded-3xl glass-card shadow-2xl">
+                        <div class="flex items-center gap-4 mb-8 pb-6 border-b" style="border-color: var(--border-color);">
+                            <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-cyan-400 via-indigo-500 to-purple-600 text-white flex items-center justify-center text-2xl shadow-lg">
+                                <i class="fa-solid fa-mobile-screen"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold" style="color: var(--text-primary);">AI Cheung Prey</h3>
+                                <p class="text-xs mt-0.5" style="color: var(--text-muted);">Mobile App • Lightweight • Instant</p>
+                            </div>
+                        </div>
+
+                        <div class="space-y-6">
+                            <!-- 🎯 ប៊ូតុង DOWNLOAD → ទៅ App2 -->
+                            <button id="downloadBtn" onclick="goToApp2()" class="w-full py-4 px-8 rounded-2xl bg-gradient-to-r from-cyan-500 via-indigo-600 to-purple-600 text-white font-bold text-lg flex items-center justify-center gap-3 hover:opacity-95 shadow-xl shadow-cyan-500/25 transition-all transform active:scale-95">
+                                <i class="fa-solid fa-download text-xl"></i>
+                                <span>Download App / ដោនឡូតកម្មវិធី</span>
+                            </button>
+
+                            <div class="p-4 rounded-xl text-xs text-center border" style="background-color: var(--bg-secondary); border-color: var(--border-color); color: var(--text-secondary);">
+                                ចុចប៊ូតុង <strong style="color: var(--text-primary);">Download App</strong> ដើម្បីបន្តទៅកាន់ App ដំឡើង AI Model។
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="border-t py-8 relative z-10" style="border-color: var(--border-color); background-color: var(--bg-main);">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="text-xs" style="color: var(--text-muted);">© 2026 AI Cheung Prey. All Rights Reserved.</div>
+            <div class="flex items-center gap-6 text-xs font-semibold" style="color: var(--text-secondary);">
+                <a href="#home" class="hover:text-cyan-400">Home</a>
+                <a href="#features" class="hover:text-cyan-400">Features</a>
+                <a href="#download" class="hover:text-cyan-400">Download</a>
+            </div>
+        </div>
+    </footer>
+
+    <div id="toast" class="fixed bottom-6 right-6 z-50 px-5 py-3.5 rounded-xl bg-slate-900 border border-cyan-500/40 text-cyan-400 text-xs font-semibold shadow-xl hidden flex items-center gap-2.5">
+        <i class="fa-solid fa-circle-check text-sm"></i>
+        <span id="toastMsg">Loading...</span>
+    </div>
+
+    <script>
+        // ============ THEME TOGGLE ============
+        const themeToggleBtn = document.getElementById('themeToggle');
+
+        function setTheme(isLight) {
+            if (isLight) {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('light');
+                localStorage.setItem('theme', 'light');
+                themeToggleBtn.innerHTML = '<i class="fa-solid fa-sun text-amber-500 text-lg"></i>';
+            } else {
+                document.documentElement.classList.remove('light');
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                themeToggleBtn.innerHTML = '<i class="fa-solid fa-moon text-cyan-400 text-lg"></i>';
+            }
+        }
+
+        setTheme(localStorage.getItem('theme') === 'light');
+
+        themeToggleBtn.addEventListener('click', () => {
+            setTheme(!document.documentElement.classList.contains('light'));
+        });
+
+        // ============ MOBILE MENU ============
+        document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+        });
+
+        // ============ 🔥 DOWNLOAD → APP ទី2 🔥 ============
+        function goToApp2() {
+            showToast('កំពុងបើក App ដំឡើង...');
+            setTimeout(() => {
+                // ប្តូរទៅ App2 ក្នុង folder តែមួយ
+                window.location.href = 'app2.html';
+            }, 400);
+        }
+
+        // ============ TOAST ============
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').innerText = msg;
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 2500);
+        }
+
+        // ============ CANVAS NEURAL BACKGROUND ============
+        const canvas = document.getElementById('neuralCanvas');
+        const ctx = canvas.getContext('2d');
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = window.innerHeight;
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            initNodes();
+        });
+
+        let nodes = [];
+        const nodeCount = 38;
+
+        function initNodes() {
+            nodes = [];
+            for (let i = 0; i < nodeCount; i++) {
+                nodes.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    vx: (Math.random() - 0.5) * 0.7,
+                    vy: (Math.random() - 0.5) * 0.7,
+                    radius: Math.random() * 2.2 + 1
+                });
+            }
+        }
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, width, height);
+            const isLight = document.documentElement.classList.contains('light');
+            const nodeColor = isLight ? 'rgba(99, 102, 241, ' : 'rgba(0, 242, 254, ';
+
+            for (let i = 0; i < nodes.length; i++) {
+                let n = nodes[i];
+                n.x += n.vx; n.y += n.vy;
+                if (n.x < 0 || n.x > width) n.vx *= -1;
+                if (n.y < 0 || n.y > height) n.vy *= -1;
+
+                ctx.beginPath();
+                ctx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
+                ctx.fillStyle = nodeColor + '0.7)';
+                ctx.fill();
+
+                for (let j = i + 1; j < nodes.length; j++) {
+                    let n2 = nodes[j];
+                    let dist = Math.hypot(n.x - n2.x, n.y - n2.y);
+                    if (dist < 140) {
+                        ctx.beginPath();
+                        ctx.moveTo(n.x, n.y);
+                        ctx.lineTo(n2.x, n2.y);
+                        ctx.strokeStyle = nodeColor + (1 - dist / 140) * 0.25 + ')';
+                        ctx.lineWidth = 0.8;
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animateCanvas);
+        }
+
+        initNodes();
+        animateCanvas();
+    </script>
+</body>
+</html>
