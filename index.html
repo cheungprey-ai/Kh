@@ -203,7 +203,7 @@
                                 </div>
                                 <span class="text-[11px] font-mono font-semibold px-2.5 py-1 rounded-md bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">Active</span>
                             </div>
-                            <div class="text-3xl sm:text-4xl font-extrabold font-mono mb-1" style="color: var(--text-primary);">150,000+</div>
+                            <div class="text-3xl sm:text-4xl font-extrabold font-mono tracking-tight mb-1" style="color: var(--text-primary);" id="student-counter">0+</div>
                             <div class="text-sm font-semibold" style="color: var(--text-secondary);">Active Students</div>
                             <div class="text-xs mt-0.5" style="color: var(--text-muted);">សិស្សកំពុងសិក្សា</div>
                         </div>
@@ -470,6 +470,55 @@
 
         initNodes();
         animateCanvas();
+            // ============ រាប់ចំនួនអ្នកចូលមើលពិតប្រាកដ ============
+    import { initializeApp } from "getAuth, GoogleAuthProvider, signInWithPopup";
+    import { getFirestore, doc, updateDoc, increment, getDoc } from "getAuth, GoogleAuthProvider, signInWithPopup";
+
+    // ⚠️ យកកូដ Firebase Config របស់អ្នក (ដូចក្នុង app2.html) មកដាក់ទីនេះ
+    const firebaseConfig = {
+      apiKey: "AIzaSyDhpsHWWqqzE6F70ooHb_AaN02UtXzcvc0",
+      authDomain: "cheung-prey-ai.firebaseapp.com",
+      projectId: "cheung-prey-ai",
+      storageBucket: "cheung-prey-ai.firebasestorage.app",
+      messagingSenderId: "704161714255",
+      appId: "1:704161714255:web:c1c530460266868b019a3a"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    async function updateRealVisitorCount() {
+        const counterElement = document.getElementById('student-counter');
+        if (!counterElement) return;
+
+        const docRef = doc(db, "app_stats", "visitors");
+
+        try {
+            // ពិនិត្យមើលថាតើគាត់ធ្លាប់ចូលមើលឬនៅ (ប្រើ LocalStorage)
+            // ដើម្បីកុំឱ្យគាត់ចុច Refresh ហើយលេខកើនរាល់ដង
+            const hasVisited = localStorage.getItem('hasVisitedApp');
+            
+            if (!hasVisited) {
+                // បើមិនទាន់ចូល គឺបូកបន្ថែម ១
+                await updateDoc(docRef, { count: increment(1) });
+                // កត់ត្រាទុកក្នុង Browser ថាគាត់ចូលហើយ
+                localStorage.setItem('hasVisitedApp', 'true');
+            }
+
+            // ទាញយកលេខចុងក្រោយគេមកបង្ហាញ
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                const currentCount = docSnap.data().count;
+                counterElement.innerText = currentCount.toLocaleString() + "+";
+            }
+        } catch (error) {
+            console.error("Error: ", error);
+            counterElement.innerText = "10,000+"; // បើ Error បង្ហាញលេខធម្មតា
+        }
+    }
+
+    // ហៅដំណើរការនៅពេលទំព័រ Load
+    window.addEventListener('load', updateRealVisitorCount);
     </script>
 </body>
 </html>
