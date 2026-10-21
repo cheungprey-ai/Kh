@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cheung Prey AI</title>
   
-  <!-- 🆕 បន្ថែម PWA Manifest -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#4f46e5">
   <link rel="apple-touch-icon" href="icon-192.png">
@@ -47,7 +46,6 @@
       100% { background-position: 0% 50%; }
     }
 
-    /* Auth Background Animation (Floating Blobs) */
     @keyframes blob {
       0% { transform: translate(0px, 0px) scale(1); }
       33% { transform: translate(30px, -50px) scale(1.1); }
@@ -98,7 +96,6 @@
       to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
-    /* 🆕 AI LOADING SCREEN ANIMATIONS */
     .loader-ring {
       display: inline-block;
       position: relative;
@@ -134,7 +131,6 @@
 
   <canvas id="bg-canvas" class="fixed inset-0 z-0 pointer-events-none opacity-50 dark:opacity-20"></canvas>
 
-  <!-- 🆕 AI LOADING SCREEN (បង្ហាញពេលបើកដំបូង) -->
   <div id="ai-loading-screen" class="fixed inset-0 z-[500] flex flex-col items-center justify-center bg-gray-900 text-white transition-opacity duration-700">
     <div class="absolute top-0 -left-4 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
     <div class="absolute bottom-0 -right-4 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
@@ -154,17 +150,13 @@
     </div>
   </div>
 
-  <!-- AUTHENTICATION SCREEN (LOGIN / SIGNUP) -->
-  <!-- 🆕 បន្ថែមពាក្យ hidden នៅខាងចុង Class -->
   <div id="auth-screen" class="fixed inset-0 z-[200] flex items-center justify-center p-4 overflow-hidden bg-gradient-to-br from-indigo-900 via-purple-900 to-blue-900 transition-opacity duration-500 hidden">
     
-    <!-- Animated Background Blobs -->
     <div class="absolute top-0 -left-4 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
     <div class="absolute top-0 -right-4 w-72 h-72 bg-yellow-500 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-2000"></div>
     <div class="absolute -bottom-8 left-20 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob animation-delay-4000"></div>
     <div class="absolute -bottom-8 right-20 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-70 animate-blob"></div>
 
-    <!-- Auth Card -->
     <div class="auth-card w-full max-w-md bg-white/10 dark:bg-gray-900/40 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 dark:border-gray-700/50 overflow-hidden relative z-10">
       
       <div class="h-2 w-full bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-500"></div>
@@ -188,7 +180,6 @@
           <button onclick="switchAuthTab('signup')" id="tab-btn-signup" class="flex-1 py-2 text-sm font-semibold text-gray-400 relative z-10 transition-colors hover:text-white">ចុះឈ្មោះ (Setup)</button>
         </div>
 
-        <!-- LOGIN FORM -->
         <form id="login-form" class="space-y-4 block" onsubmit="handleLogin(event)">
           <div>
             <label class="block text-xs font-medium text-gray-300 mb-1">អ៊ីមែល (Gmail)</label>
@@ -206,8 +197,8 @@
             <div class="flex-grow border-t border-white/20"></div>
           </div>
 
-          <!-- Google Login Button -->
-          <button type="button" onclick="LoginWithGoogle()" class="w-full bg-white text-gray-800 font-semibold py-3 rounded-xl flex items-center justify-center gap-3 hover:bg-gray-50 transition-all active:scale-95 shadow-md">
+          <!-- 🟢 កែត្រង់នេះ៖ ប្តូរពី handleGoogleLogin() មក loginWithGoogle() វិញ -->
+          <button type="button" onclick="loginWithGoogle()" class="w-full bg-white text-gray-800 font-semibold py-3 rounded-xl flex items-center justify-center gap-3 hover:bg-gray-50 transition-all active:scale-95 shadow-md">
             <svg class="w-5 h-5" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
               <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
@@ -218,7 +209,6 @@
           </button>
         </form>
 
-        <!-- SIGNUP FORM -->
         <form id="signup-form" class="space-y-4 hidden" onsubmit="handleSignup(event)">
           <div>
             <label class="block text-xs font-medium text-gray-300 mb-1">ឈ្មោះ (Name)</label>
@@ -234,25 +224,18 @@
           </div>
           <button type="submit" class="w-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-medium py-3 rounded-xl shadow-lg shadow-blue-500/30 hover:shadow-blue-500/50 hover:scale-[1.02] active:scale-95 transition-all mt-2">បង្កើតគណនីថ្មី</button>
         </form>
-
       </div>
     </div>
   </div>
-    <!-- MAIN APPLICATION (HIDDEN UNTIL LOGGED IN)  -->
-  <div id="main-app" class="flex w-full h-full relative overflow-hidden z-10 hidden opacity-0 transition-opacity duration-500">
-    
+    <div id="main-app" class="flex w-full h-full relative overflow-hidden z-10 hidden opacity-0 transition-opacity duration-500">
     <div id="sidebar-overlay" onclick="toggleSidebar(false)" class="md:hidden absolute inset-0 bg-black/20 backdrop-blur-sm z-30 opacity-0 pointer-events-none transition-opacity duration-300"></div>
 
-    <!-- SIDEBAR -->
     <aside id="sidebar" class="absolute md:relative md:translate-x-0 md:w-80 lg:w-80 top-0 left-0 bottom-0 w-[85%] bg-white/80 dark:bg-gray-900/80 backdrop-blur-2xl z-40 transform -translate-x-full sidebar-transition flex flex-col justify-between border-r border-white/50 dark:border-gray-800 shadow-2xl md:shadow-none shrink-0 transition-colors duration-300">
-      
-      <!-- Header -->
       <div class="p-4 pt-5 flex items-center gap-2.5 shrink-0 border-b border-white/40 dark:border-gray-800">
         <div class="w-9 h-9 rounded-lg bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center shadow-md">
           <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"></path>
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"></path>
-            <path stroke-linecap="round" stroke-linejoin="round" d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"></path>
           </svg>
         </div>
         <span class="font-bold text-base tracking-tight">Cheung Prey AI</span>
@@ -284,7 +267,6 @@
         </div>
       </div>
 
-      <!-- User Profile & Popup Menu -->
       <div class="relative shrink-0">
         <div id="user-profile-menu" class="menu-popup hidden absolute bottom-[70px] left-4 right-4 z-50 bg-[#2f2f2f] dark:bg-gray-800 rounded-2xl shadow-2xl p-2 text-sm text-gray-200 border border-gray-700 opacity-0 scale-95">
           <button class="w-full px-3 py-2.5 flex items-center space-x-3 hover:bg-white/10 rounded-xl transition-colors text-left font-medium">
@@ -321,7 +303,6 @@
       </div>
     </aside>
 
-    <!-- MAIN AREA -->
     <div class="flex-1 flex flex-col h-full min-w-0 relative">
       <header class="h-16 bg-white/50 dark:bg-gray-900/50 backdrop-blur-md px-4 md:px-6 flex items-center justify-between z-20 border-b border-white/50 dark:border-gray-800 shrink-0 transition-colors duration-300">
         <div class="flex items-center gap-2">
@@ -400,7 +381,6 @@
     </div>
   </div>
 
-  <!-- HISTORY CONTEXT MENU -->
   <div id="history-context-menu" class="hidden fixed z-[100] w-52 bg-white/95 dark:bg-gray-800/95 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-700 p-1.5 text-sm transition-all duration-150">
     <button onclick="menuRenameChat()" class="w-full px-3 py-2.5 flex items-center space-x-3 hover:bg-gray-100/70 dark:hover:bg-gray-700/70 rounded-xl transition-colors text-left font-normal">
       <svg class="w-4 h-4 text-gray-600 dark:text-gray-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
@@ -420,7 +400,6 @@
     </button>
   </div>
 
-  <!-- SETTINGS MODAL -->
   <div id="settings-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[150] hidden flex items-center justify-center p-4">
     <div class="bg-white dark:bg-gray-900 rounded-2xl w-full max-w-3xl shadow-2xl flex flex-col md:flex-row overflow-hidden h-[85vh] md:h-[600px] border border-gray-200 dark:border-gray-700 transition-colors duration-300">
       <div class="w-full md:w-64 bg-gray-50 dark:bg-gray-800/50 border-b md:border-b-0 md:border-r border-gray-200 dark:border-gray-700 p-4 flex flex-row md:flex-col gap-2 overflow-x-auto shrink-0">
@@ -441,7 +420,6 @@
         </button>
 
         <div class="flex-1 overflow-y-auto p-6 md:p-8">
-          <!-- TAB: GENERAL -->
           <div id="view-general" class="block space-y-8">
             <div>
               <h3 class="text-base font-semibold mb-3 border-b border-gray-200 dark:border-gray-700 pb-2" data-lang="theme_title">ពណ៌ផ្ទៃខាងក្រោយ (Theme)</h3>
@@ -467,7 +445,6 @@
             </div>
           </div>
 
-          <!-- TAB: PROFILE -->
           <div id="view-profile" class="hidden space-y-6">
             <h3 class="text-base font-semibold border-b border-gray-200 dark:border-gray-700 pb-2" data-lang="profile_info">ព័ត៌មានគណនី (Profile Information)</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -522,7 +499,6 @@
     </div>
   </div>
 
-  <!-- RENAME MODAL -->
   <div id="rename-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[160] hidden flex items-center justify-center p-4">
     <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-sm shadow-xl space-y-4 border border-transparent dark:border-gray-700">
       <h3 class="font-semibold text-base">ប្ដូរឈ្មោះការជជែក</h3>
@@ -534,7 +510,6 @@
     </div>
   </div>
 
-  <!-- DELETE MODAL -->
   <div id="delete-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-[160] hidden flex items-center justify-center p-4">
     <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 w-full max-w-sm shadow-xl space-y-4 border border-transparent dark:border-gray-700">
       <h3 class="font-semibold text-base" id="delete-modal-title">លុបការជជែក</h3>
@@ -549,44 +524,1045 @@
     // ==========================================
     // ០. AUTHENTICATION LOGIC (LOGIN / SIGNUP)
     // ==========================================
-    const _0x3fc743=_0x1fb9;(function(_0x5ba12f,_0xdb4b63){const _0x5d2c5d=_0x1fb9,_0x3bb9d2=_0x5ba12f();while(!![]){try{const _0x11a9c6=-parseInt(_0x5d2c5d(0x1f5))/0x1+parseInt(_0x5d2c5d(0x232))/0x2*(-parseInt(_0x5d2c5d(0x1c9))/0x3)+-parseInt(_0x5d2c5d(0x1d2))/0x4+-parseInt(_0x5d2c5d(0x207))/0x5*(parseInt(_0x5d2c5d(0x2a1))/0x6)+-parseInt(_0x5d2c5d(0x28d))/0x7+parseInt(_0x5d2c5d(0x237))/0x8*(parseInt(_0x5d2c5d(0x2a6))/0x9)+parseInt(_0x5d2c5d(0x271))/0xa;if(_0x11a9c6===_0xdb4b63)break;else _0x3bb9d2['push'](_0x3bb9d2['shift']());}catch(_0xad02d2){_0x3bb9d2['push'](_0x3bb9d2['shift']());}}}(_0xca81,0x1c6d6));let currentUser=null;async function initAIOnLoad(){const _0x103de6=_0x1fb9,_0x2b6825=document[_0x103de6(0x2c8)](_0x103de6(0x19f)),_0x516286=document[_0x103de6(0x2c8)](_0x103de6(0x220));if(localStorage[_0x103de6(0x24d)]('qwen_model_ready')===_0x103de6(0x21d)){_0x2b6825['style'][_0x103de6(0x223)]='0',setTimeout(()=>{const _0x3b60e7=_0x103de6;_0x2b6825[_0x3b60e7(0x212)]['display']='none';const _0xe095f=localStorage[_0x3b60e7(0x24d)](_0x3b60e7(0x29e));_0xe095f?(currentUser=JSON[_0x3b60e7(0x228)](_0xe095f),showMainApp()):_0x516286[_0x3b60e7(0x2d3)][_0x3b60e7(0x290)]('hidden');},0x2bc);return;}try{const {CreateMLCEngine:_0x367c60}=await import('https://cdn.jsdelivr.net/npm/@mlc-ai/web-llm@0.2.86/+esm'),_0x2c1bba=_0x1c063b=>{const _0x428f48=_0x103de6,_0x31c178=Math[_0x428f48(0x252)](_0x1c063b['progress']*0x64);document[_0x428f48(0x2c8)](_0x428f48(0x18f))[_0x428f48(0x212)][_0x428f48(0x2cc)]=_0x31c178+'%',document[_0x428f48(0x2c8)](_0x428f48(0x299))[_0x428f48(0x1f2)]=_0x31c178+'%';if(_0x1c063b[_0x428f48(0x2b1)][_0x428f48(0x249)](_0x428f48(0x20e)))document[_0x428f48(0x2c8)]('ai-status-text')[_0x428f48(0x1f2)]=_0x428f48(0x267);else _0x1c063b[_0x428f48(0x2b1)]['includes'](_0x428f48(0x246))?document[_0x428f48(0x2c8)](_0x428f48(0x1a0))[_0x428f48(0x1f2)]='កំពុងដំឡើងទៅកាន់ម៉ាស៊ីន...':document[_0x428f48(0x2c8)]('ai-status-text')['innerText']=_0x428f48(0x2b7);};window['aiEngine']=await _0x367c60(_0x103de6(0x285),{'initProgressCallback':_0x2c1bba}),localStorage['setItem']('qwen_model_ready',_0x103de6(0x21d)),document['getElementById']('ai-percent-text')['innerText']=_0x103de6(0x206),document[_0x103de6(0x2c8)](_0x103de6(0x1a0))[_0x103de6(0x1f2)]='✅\x20រួចរាល់!',setTimeout(()=>{const _0x264b15=_0x103de6;_0x2b6825['style'][_0x264b15(0x223)]='0',setTimeout(()=>{const _0xdae8e=_0x264b15;_0x2b6825[_0xdae8e(0x212)][_0xdae8e(0x273)]=_0xdae8e(0x1f9);const _0x40b4b6=localStorage[_0xdae8e(0x24d)](_0xdae8e(0x29e));_0x40b4b6?(currentUser=JSON[_0xdae8e(0x228)](_0x40b4b6),showMainApp()):_0x516286[_0xdae8e(0x2d3)][_0xdae8e(0x290)](_0xdae8e(0x241));},0x2bc);},0x320);}catch(_0x3316d7){document[_0x103de6(0x2c8)](_0x103de6(0x1a0))[_0x103de6(0x1f2)]=_0x103de6(0x230)+_0x3316d7['message'],document['getElementById'](_0x103de6(0x1a0))['classList'][_0x103de6(0x2bc)](_0x103de6(0x210)),alert('ម៉ាស៊ីនរបស់អ្នកមិនអាចទាញយក\x20AI\x20បានទេ។\x20សូមប្រើ\x20Chrome\x20ឬ\x20Edge\x20ជំនាន់ថ្មី\x20ហើយប្រាកដថាមាន\x20WebGPU។');}}window['addEventListener'](_0x3fc743(0x1af),()=>{initAIOnLoad();});function switchAuthTab(_0x4076ea){const _0x7a9a59=_0x3fc743,_0x5b8560=document[_0x7a9a59(0x2c8)]('auth-tab-indicator'),_0x43572b=document[_0x7a9a59(0x2c8)](_0x7a9a59(0x1bc)),_0x1d20cd=document[_0x7a9a59(0x2c8)]('tab-btn-signup'),_0x52b4ae=document['getElementById'](_0x7a9a59(0x262)),_0x169616=document[_0x7a9a59(0x2c8)]('signup-form');_0x4076ea==='login'?(_0x5b8560[_0x7a9a59(0x212)][_0x7a9a59(0x1ce)]='translateX(0)',_0x43572b[_0x7a9a59(0x2d3)][_0x7a9a59(0x2bc)](_0x7a9a59(0x1d5)),_0x43572b[_0x7a9a59(0x2d3)][_0x7a9a59(0x290)](_0x7a9a59(0x21f)),_0x1d20cd[_0x7a9a59(0x2d3)][_0x7a9a59(0x290)](_0x7a9a59(0x1d5)),_0x1d20cd[_0x7a9a59(0x2d3)][_0x7a9a59(0x2bc)](_0x7a9a59(0x21f)),_0x52b4ae[_0x7a9a59(0x2d3)][_0x7a9a59(0x290)](_0x7a9a59(0x241)),_0x169616[_0x7a9a59(0x2d3)]['add'](_0x7a9a59(0x241))):(_0x5b8560[_0x7a9a59(0x212)]['transform']='translateX(100%)',_0x1d20cd[_0x7a9a59(0x2d3)][_0x7a9a59(0x2bc)](_0x7a9a59(0x1d5)),_0x1d20cd[_0x7a9a59(0x2d3)]['remove'](_0x7a9a59(0x21f)),_0x43572b['classList'][_0x7a9a59(0x290)](_0x7a9a59(0x1d5)),_0x43572b[_0x7a9a59(0x2d3)][_0x7a9a59(0x2bc)](_0x7a9a59(0x21f)),_0x169616[_0x7a9a59(0x2d3)]['remove'](_0x7a9a59(0x241)),_0x52b4ae[_0x7a9a59(0x2d3)][_0x7a9a59(0x2bc)]('hidden'));}function handleLogin(_0x381084){const _0x471371=_0x3fc743;_0x381084[_0x471371(0x28f)]();const _0x2137d3=document[_0x471371(0x2c8)](_0x471371(0x1ae))[_0x471371(0x1d8)][_0x471371(0x19c)](),_0x5525ea=document[_0x471371(0x2c8)](_0x471371(0x2c4))[_0x471371(0x1d8)],_0x39e6c2=JSON[_0x471371(0x228)](localStorage[_0x471371(0x24d)](_0x471371(0x2a9))||'[]'),_0x5a5fe5=_0x39e6c2[_0x471371(0x2ae)](_0x4ee2c0=>_0x4ee2c0['email']===_0x2137d3&&_0x4ee2c0[_0x471371(0x235)]===_0x5525ea);_0x5a5fe5?(currentUser={'name':_0x5a5fe5['name'],'email':_0x5a5fe5[_0x471371(0x226)]},localStorage[_0x471371(0x24a)](_0x471371(0x29e),JSON[_0x471371(0x298)](currentUser)),showMainApp()):alert(_0x471371(0x1a5));}function handleSignup(_0x483e47){const _0x52831c=_0x3fc743;_0x483e47[_0x52831c(0x28f)]();const _0x208875=document[_0x52831c(0x2c8)]('signup-name')[_0x52831c(0x1d8)]['trim'](),_0x38ebf2=document['getElementById'](_0x52831c(0x1db))[_0x52831c(0x1d8)][_0x52831c(0x19c)](),_0x47a08d=document[_0x52831c(0x2c8)](_0x52831c(0x2ba))[_0x52831c(0x1d8)];let _0x203cfb=JSON['parse'](localStorage[_0x52831c(0x24d)](_0x52831c(0x2a9))||'[]');if(_0x203cfb['find'](_0x121814=>_0x121814[_0x52831c(0x226)]===_0x38ebf2)){alert('អ៊ីមែលនេះត្រូវបានប្រើប្រាស់រួចហើយ!');return;}_0x203cfb[_0x52831c(0x269)]({'name':_0x208875,'email':_0x38ebf2,'password':_0x47a08d}),localStorage[_0x52831c(0x24a)](_0x52831c(0x2a9),JSON[_0x52831c(0x298)](_0x203cfb)),currentUser={'name':_0x208875,'email':_0x38ebf2},localStorage[_0x52831c(0x24a)](_0x52831c(0x29e),JSON[_0x52831c(0x298)](currentUser)),showMainApp();}function handleGoogleLogin(){const _0x31514e=_0x3fc743,_0x91ca4f={'name':'Google\x20User','email':_0x31514e(0x193)};currentUser=_0x91ca4f,localStorage[_0x31514e(0x24a)](_0x31514e(0x29e),JSON[_0x31514e(0x298)](currentUser)),showMainApp();}function handleLogout(){const _0x10771d=_0x3fc743;confirm(_0x10771d(0x255))&&(localStorage['removeItem']('cp_currentUser'),currentUser=null,closeUserMenu(),showAuthScreen());}function showAuthScreen(){const _0x1f10d0=_0x3fc743;document[_0x1f10d0(0x2c8)](_0x1f10d0(0x19b))[_0x1f10d0(0x2d3)][_0x1f10d0(0x2bc)](_0x1f10d0(0x241),_0x1f10d0(0x2d2)),document['getElementById'](_0x1f10d0(0x220))[_0x1f10d0(0x2d3)][_0x1f10d0(0x290)](_0x1f10d0(0x241)),document['getElementById']('auth-screen')[_0x1f10d0(0x2d3)]['add'](_0x1f10d0(0x279));}function showMainApp(){const _0x409667=_0x3fc743;document[_0x409667(0x2c8)](_0x409667(0x220))['classList'][_0x409667(0x2bc)](_0x409667(0x241),_0x409667(0x2d2)),document[_0x409667(0x2c8)](_0x409667(0x19b))[_0x409667(0x2d3)]['remove']('hidden'),setTimeout(()=>{const _0x34e742=_0x409667;document['getElementById']('main-app')[_0x34e742(0x2d3)][_0x34e742(0x290)](_0x34e742(0x2d2));},0x32),document[_0x409667(0x2c8)](_0x409667(0x225))['innerText']=currentUser[_0x409667(0x1a8)],document[_0x409667(0x2c8)](_0x409667(0x2d1))[_0x409667(0x1f2)]=currentUser[_0x409667(0x226)],document['getElementById'](_0x409667(0x243))[_0x409667(0x1f2)]=currentUser['name'][_0x409667(0x1df)](0x0)[_0x409667(0x1eb)](),document[_0x409667(0x2c8)](_0x409667(0x1d4))[_0x409667(0x1d8)]=currentUser[_0x409667(0x1a8)],document[_0x409667(0x2c8)](_0x409667(0x2c6))['value']=currentUser[_0x409667(0x226)],document[_0x409667(0x2c8)](_0x409667(0x2b0))['value']=currentUser[_0x409667(0x226)],initParticles(),animateParticles(),loadChatsFromStorage(),renderHistory();}let selectedFiles=[];const MAX_FILES=0x32,MAX_SIZE=0x64*0x400*0x400;function handleFileSelect(_0x518b81){const _0x54fe8a=_0x3fc743,_0x2841d4=Array[_0x54fe8a(0x211)](_0x518b81[_0x54fe8a(0x221)]['files']);if(selectedFiles[_0x54fe8a(0x1bd)]+_0x2841d4['length']>MAX_FILES){alert('អ្នកអាចជ្រើសរើសបានត្រឹមតែ\x20'+MAX_FILES+'\x20ឯកសារប៉ុណ្ណោះ!'),_0x518b81['target'][_0x54fe8a(0x1d8)]='';return;}for(let _0x3d29e7 of _0x2841d4){if(_0x3d29e7[_0x54fe8a(0x19d)]>MAX_SIZE){alert(_0x54fe8a(0x1ff)+_0x3d29e7[_0x54fe8a(0x1a8)]+_0x54fe8a(0x250));continue;}selectedFiles[_0x54fe8a(0x269)](_0x3d29e7);}_0x518b81[_0x54fe8a(0x221)][_0x54fe8a(0x1d8)]='',renderSelectedFiles();}function renderSelectedFiles(){const _0x101bb0=_0x3fc743,_0x3e05db=document['getElementById'](_0x101bb0(0x20c));_0x3e05db[_0x101bb0(0x26b)]='';if(selectedFiles[_0x101bb0(0x1bd)]===0x0){_0x3e05db['classList']['add'](_0x101bb0(0x241)),_0x3e05db[_0x101bb0(0x2d3)]['remove'](_0x101bb0(0x196));return;}_0x3e05db[_0x101bb0(0x2d3)][_0x101bb0(0x290)](_0x101bb0(0x241)),_0x3e05db[_0x101bb0(0x2d3)][_0x101bb0(0x2bc)](_0x101bb0(0x196)),selectedFiles[_0x101bb0(0x2b9)]((_0x154307,_0x4b0272)=>{const _0x36c839=_0x101bb0,_0x14b412=document[_0x36c839(0x2b5)](_0x36c839(0x25a));_0x14b412[_0x36c839(0x1b4)]=_0x36c839(0x288);let _0x58bba6=_0x36c839(0x222);_0x154307[_0x36c839(0x283)][_0x36c839(0x224)](_0x36c839(0x26d))&&(_0x58bba6='<svg\x20class=\x22w-3.5\x20h-3.5\x20text-green-500\x22\x20fill=\x22none\x22\x20stroke=\x22currentColor\x22\x20viewBox=\x220\x200\x2024\x2024\x22><path\x20stroke-linecap=\x22round\x22\x20stroke-linejoin=\x22round\x22\x20stroke-width=\x222\x22\x20d=\x22M4\x2016l4.586-4.586a2\x202\x200\x20012.828\x200L16\x2016m-2-2l1.586-1.586a2\x202\x200\x20012.828\x200L20\x2014m-6-6h.01M6\x2020h12a2\x202\x200\x20002-2V6a2\x202\x200\x2000-2-2H6a2\x202\x200\x2000-2\x202v12a2\x202\x200\x20002\x202z\x22/></svg>'),_0x14b412['innerHTML']=_0x36c839(0x26a)+_0x58bba6+'\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20class=\x22truncate\x20max-w-[100px]\x20sm:max-w-[150px]\x22>'+_0x154307['name']+'</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<button\x20onclick=\x22removeFile('+_0x4b0272+')\x22\x20class=\x22text-red-500\x20hover:text-red-700\x20ml-1\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<svg\x20class=\x22w-3.5\x20h-3.5\x22\x20fill=\x22none\x22\x20stroke=\x22currentColor\x22\x20viewBox=\x220\x200\x2024\x2024\x22><path\x20stroke-linecap=\x22round\x22\x20stroke-linejoin=\x22round\x22\x20stroke-width=\x222\x22\x20d=\x22M6\x2018L18\x206M6\x206l12\x2012\x22/></svg>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</button>\x0a\x20\x20\x20\x20\x20\x20\x20\x20',_0x3e05db['appendChild'](_0x14b412);});}function _0x1fb9(_0x5e9849,_0x148e3b){_0x5e9849=_0x5e9849-0x18d;const _0xca8162=_0xca81();let _0x1fb99f=_0xca8162[_0x5e9849];if(_0x1fb9['rQMGHP']===undefined){var _0xbf9e1f=function(_0xc79db3){const _0x3ec346='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x492662='',_0x2b6825='';for(let _0x516286=0x0,_0xe095f,_0x367c60,_0x2c1bba=0x0;_0x367c60=_0xc79db3['charAt'](_0x2c1bba++);~_0x367c60&&(_0xe095f=_0x516286%0x4?_0xe095f*0x40+_0x367c60:_0x367c60,_0x516286++%0x4)?_0x492662+=String['fromCharCode'](0xff&_0xe095f>>(-0x2*_0x516286&0x6)):0x0){_0x367c60=_0x3ec346['indexOf'](_0x367c60);}for(let _0x1c063b=0x0,_0x31c178=_0x492662['length'];_0x1c063b<_0x31c178;_0x1c063b++){_0x2b6825+='%'+('00'+_0x492662['charCodeAt'](_0x1c063b)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x2b6825);};_0x1fb9['EQBiTq']=_0xbf9e1f,_0x1fb9['BXZYpX']={},_0x1fb9['rQMGHP']=!![];}const _0x294bc3=_0xca8162[0x0];_0x1fb9['mkxxXs']!==_0x294bc3&&(_0x1fb9['BXZYpX']={},_0x1fb9['mkxxXs']=_0x294bc3);const _0x398126=_0x1fb9['BXZYpX'][_0x5e9849];return _0x398126===undefined?(_0x1fb99f=_0x1fb9['EQBiTq'](_0x1fb99f),_0x1fb9['BXZYpX'][_0x5e9849]=_0x1fb99f):_0x1fb99f=_0x398126,_0x1fb99f;}function removeFile(_0x548524){const _0x350cee=_0x3fc743;selectedFiles[_0x350cee(0x1a1)](_0x548524,0x1),renderSelectedFiles();}const SpeechRecognition=window['SpeechRecognition']||window['webkitSpeechRecognition'];let recognition=null,isListening=![],textBeforeRecording='',sessionText='';SpeechRecognition&&(recognition=new SpeechRecognition(),recognition[_0x3fc743(0x2c5)]=!![],recognition[_0x3fc743(0x200)]=!![],recognition[_0x3fc743(0x27c)]=function(){const _0x35e966=_0x3fc743;isListening=!![];const _0x4404e3=document[_0x35e966(0x2c8)](_0x35e966(0x202));_0x4404e3[_0x35e966(0x2d3)][_0x35e966(0x2bc)](_0x35e966(0x1ac)),document[_0x35e966(0x2c8)](_0x35e966(0x22a))[_0x35e966(0x1d1)]=currentLang==='km'?_0x35e966(0x1ec):_0x35e966(0x21a),autoResize(document[_0x35e966(0x2c8)](_0x35e966(0x22a)));},recognition['onresult']=function(_0x1f7652){const _0xceeb4d=_0x3fc743;let _0x594ccf='';for(let _0x1fe001=_0x1f7652[_0xceeb4d(0x1b6)];_0x1fe001<_0x1f7652[_0xceeb4d(0x1fe)][_0xceeb4d(0x1bd)];++_0x1fe001){_0x1f7652[_0xceeb4d(0x1fe)][_0x1fe001][_0xceeb4d(0x1c6)]?sessionText+=_0x1f7652[_0xceeb4d(0x1fe)][_0x1fe001][0x0][_0xceeb4d(0x22f)]+'\x20':_0x594ccf+=_0x1f7652[_0xceeb4d(0x1fe)][_0x1fe001][0x0][_0xceeb4d(0x22f)];}const _0x25add4=document[_0xceeb4d(0x2c8)](_0xceeb4d(0x22a));_0x25add4['value']=textBeforeRecording+sessionText+_0x594ccf,autoResize(_0x25add4);},recognition[_0x3fc743(0x1c4)]=function(_0x40412){const _0x4aa667=_0x3fc743;console[_0x4aa667(0x2ca)](_0x4aa667(0x1a9),_0x40412[_0x4aa667(0x2ca)]),_0x40412[_0x4aa667(0x2ca)]==='not-allowed'&&(alert('សូមអនុញ្ញាតឲ្យប្រើមីក្រូហ្វូន\x20(Allow\x20Microphone)\x20ដើម្បីប្រើមុខងារនេះ។'),isListening=![],stopListeningUI());},recognition[_0x3fc743(0x23c)]=function(){const _0x2262d0=_0x3fc743;if(isListening)try{recognition[_0x2262d0(0x2c0)]();}catch(_0x1a2ea4){isListening=![],stopListeningUI();}else stopListeningUI();});function stopListeningUI(){const _0x1a679a=_0x3fc743;isListening=![];const _0x449f9e=document['getElementById'](_0x1a679a(0x202));_0x449f9e['classList'][_0x1a679a(0x290)](_0x1a679a(0x1ac)),document['getElementById'](_0x1a679a(0x22a))[_0x1a679a(0x1d1)]=currentLang==='km'?_0x1a679a(0x201):'Send\x20a\x20message\x20or\x20click\x20to\x20speak',autoResize(document['getElementById'](_0x1a679a(0x22a)));}function handleSendOrMic(){const _0x2cd748=_0x3fc743;if(isListening){isListening=![];if(recognition)recognition[_0x2cd748(0x2cd)]();stopListeningUI();return;}const _0x350361=document[_0x2cd748(0x2c8)](_0x2cd748(0x22a)),_0x11bf51=_0x350361['value'][_0x2cd748(0x19c)]();if(_0x11bf51||selectedFiles[_0x2cd748(0x1bd)]>0x0)sendMessage();else{if(!SpeechRecognition){alert(_0x2cd748(0x1f1));return;}textBeforeRecording=_0x350361[_0x2cd748(0x1d8)],sessionText='',recognition['lang']=currentLang==='km'?_0x2cd748(0x2d4):_0x2cd748(0x1e0);try{recognition[_0x2cd748(0x2c0)]();}catch(_0x24e61f){console[_0x2cd748(0x2ca)](_0x24e61f);}}}const translations={'km':{'settings':_0x3fc743(0x238),'general':_0x3fc743(0x1d9),'profile':_0x3fc743(0x291),'theme_title':_0x3fc743(0x236),'theme_desc':_0x3fc743(0x1ab),'lang_title':_0x3fc743(0x21e),'profile_info':_0x3fc743(0x1fa),'dev_manage':_0x3fc743(0x1aa),'danger_zone':_0x3fc743(0x21c),'logout_all':_0x3fc743(0x1b1),'delete_acc':_0x3fc743(0x265),'welcome':_0x3fc743(0x1b5),'think':_0x3fc743(0x1d6),'search':'ស្វែងរក'},'en':{'settings':_0x3fc743(0x231),'general':_0x3fc743(0x194),'profile':_0x3fc743(0x1e5),'theme_title':_0x3fc743(0x1e8),'theme_desc':_0x3fc743(0x257),'lang_title':_0x3fc743(0x29c),'profile_info':'Profile\x20Information','dev_manage':_0x3fc743(0x23a),'danger_zone':_0x3fc743(0x293),'logout_all':_0x3fc743(0x208),'delete_acc':_0x3fc743(0x1ad),'welcome':_0x3fc743(0x24c),'think':_0x3fc743(0x1b0),'search':_0x3fc743(0x2b3)}};let isDarkMode=localStorage['getItem'](_0x3fc743(0x218))===_0x3fc743(0x28a),currentLang=localStorage[_0x3fc743(0x24d)](_0x3fc743(0x275))||'km';function applyTheme(){const _0x57cb86=_0x3fc743;isDarkMode?(document[_0x57cb86(0x245)][_0x57cb86(0x2d3)][_0x57cb86(0x2bc)](_0x57cb86(0x28a)),document[_0x57cb86(0x2c8)]('theme-toggle')[_0x57cb86(0x244)]=!![]):(document[_0x57cb86(0x245)][_0x57cb86(0x2d3)][_0x57cb86(0x290)](_0x57cb86(0x28a)),document[_0x57cb86(0x2c8)](_0x57cb86(0x2ce))[_0x57cb86(0x244)]=![]);}function toggleTheme(){const _0x28df88=_0x3fc743;isDarkMode=!isDarkMode,localStorage['setItem'](_0x28df88(0x218),isDarkMode?_0x28df88(0x28a):_0x28df88(0x219)),applyTheme();}function changeLanguage(_0x205c68){const _0x40070b=_0x3fc743;currentLang=_0x205c68,localStorage['setItem'](_0x40070b(0x275),_0x205c68),document[_0x40070b(0x2c8)](_0x40070b(0x195))[_0x40070b(0x1d8)]=_0x205c68,updateUILanguage(),!isListening&&(document[_0x40070b(0x2c8)](_0x40070b(0x22a))['placeholder']=_0x205c68==='km'?_0x40070b(0x201):_0x40070b(0x261));}function updateUILanguage(){const _0x4421b4=_0x3fc743;document[_0x4421b4(0x1a4)](_0x4421b4(0x1b3))[_0x4421b4(0x2b9)](_0x435ceb=>{const _0x589e0e=_0x4421b4,_0x34f5a8=_0x435ceb[_0x589e0e(0x2c3)]('data-lang');translations[currentLang][_0x34f5a8]&&(_0x435ceb['innerText']=translations[currentLang][_0x34f5a8]);}),document[_0x4421b4(0x2c8)](_0x4421b4(0x19e))[_0x4421b4(0x1f2)]=translations[currentLang][_0x4421b4(0x268)];}function openSettings(){const _0xba0522=_0x3fc743;document['getElementById'](_0xba0522(0x1ca))[_0xba0522(0x2d3)][_0xba0522(0x290)]('hidden'),switchSettingsTab(_0xba0522(0x1c2));}function closeSettings(){const _0x12b2c8=_0x3fc743;document[_0x12b2c8(0x2c8)](_0x12b2c8(0x1ca))[_0x12b2c8(0x2d3)][_0x12b2c8(0x2bc)](_0x12b2c8(0x241));}function switchSettingsTab(_0x23d21d){const _0x68d731=_0x3fc743,_0x2f2d05=document[_0x68d731(0x2c8)](_0x68d731(0x19a)),_0x56f4b7=document['getElementById']('tab-profile'),_0x1ec3c1=document[_0x68d731(0x2c8)](_0x68d731(0x251)),_0x2895ef=document[_0x68d731(0x2c8)](_0x68d731(0x2b4));_0x23d21d===_0x68d731(0x1c2)?(_0x2f2d05[_0x68d731(0x1b4)]=_0x68d731(0x1c1),_0x56f4b7['className']=_0x68d731(0x242),_0x1ec3c1['classList'][_0x68d731(0x290)](_0x68d731(0x241)),_0x2895ef[_0x68d731(0x2d3)][_0x68d731(0x2bc)](_0x68d731(0x241))):(_0x56f4b7[_0x68d731(0x1b4)]='settings-tab\x20flex\x20items-center\x20gap-3\x20px-3\x20py-2.5\x20rounded-xl\x20text-sm\x20font-medium\x20bg-blue-50\x20dark:bg-blue-900/40\x20text-blue-600\x20dark:text-blue-400\x20transition-colors\x20whitespace-nowrap',_0x2f2d05['className']=_0x68d731(0x242),_0x2895ef[_0x68d731(0x2d3)]['remove'](_0x68d731(0x241)),_0x1ec3c1[_0x68d731(0x2d3)][_0x68d731(0x2bc)](_0x68d731(0x241)));}function saveProfile(){const _0x9f3daa=_0x3fc743,_0x2d738a=document[_0x9f3daa(0x2c8)](_0x9f3daa(0x1d4))[_0x9f3daa(0x1d8)],_0xdef31c=document[_0x9f3daa(0x2c8)](_0x9f3daa(0x2c6))['value'],_0x35eb44=document[_0x9f3daa(0x2c8)](_0x9f3daa(0x26f))['value'];currentUser[_0x9f3daa(0x1a8)]=_0x2d738a,currentUser['email']=_0xdef31c,localStorage[_0x9f3daa(0x24a)](_0x9f3daa(0x29e),JSON[_0x9f3daa(0x298)](currentUser));let _0x4f6567=JSON[_0x9f3daa(0x228)](localStorage[_0x9f3daa(0x24d)](_0x9f3daa(0x2a9))||'[]');const _0x4a91b7=_0x4f6567[_0x9f3daa(0x191)](_0x323a0c=>_0x323a0c[_0x9f3daa(0x226)]===currentUser['email']);_0x4a91b7>-0x1&&(_0x4f6567[_0x4a91b7][_0x9f3daa(0x1a8)]=_0x2d738a,localStorage[_0x9f3daa(0x24a)](_0x9f3daa(0x2a9),JSON[_0x9f3daa(0x298)](_0x4f6567))),document[_0x9f3daa(0x2c8)](_0x9f3daa(0x225))[_0x9f3daa(0x1f2)]=_0x2d738a,document[_0x9f3daa(0x2c8)]('display-email')[_0x9f3daa(0x1f2)]=_0xdef31c,document[_0x9f3daa(0x2c8)](_0x9f3daa(0x243))[_0x9f3daa(0x1f2)]=_0x2d738a['charAt'](0x0)[_0x9f3daa(0x1eb)](),alert(_0x9f3daa(0x29b));}function logoutAllDevices(){confirm('តើអ្នកពិតជាចង់ចាកចេញពីគ្រប់ឧបករណ៍មែនទេ?')&&(alert('បានចាកចេញពីគ្រប់ឧបករណ៍រួចរាល់!'),handleLogout());}function deleteAccount(){const _0x2db032=_0x3fc743;confirm(_0x2db032(0x1de))&&(localStorage['clear'](),alert('គណនីត្រូវបានលុបចោល!'),window[_0x2db032(0x1ef)]['reload']());}const canvas=document['getElementById'](_0x3fc743(0x284)),ctx=canvas[_0x3fc743(0x1dc)]('2d');let particlesArray;canvas['width']=window[_0x3fc743(0x1b2)],canvas[_0x3fc743(0x2c1)]=window['innerHeight'],window[_0x3fc743(0x27e)](_0x3fc743(0x1e6),function(){const _0x52041a=_0x3fc743;canvas[_0x52041a(0x2cc)]=window['innerWidth'],canvas['height']=window[_0x52041a(0x1be)],initParticles();});class Particle{constructor(_0x1e2610,_0x73556,_0x49aeba,_0x22f547,_0xc40135,_0x4e997f){const _0x1a0c9f=_0x3fc743;this['x']=_0x1e2610,this['y']=_0x73556,this[_0x1a0c9f(0x205)]=_0x49aeba,this[_0x1a0c9f(0x24b)]=_0x22f547,this['size']=_0xc40135,this[_0x1a0c9f(0x22d)]=_0x4e997f;}[_0x3fc743(0x20d)](){const _0x1cd27b=_0x3fc743;ctx[_0x1cd27b(0x2a0)](),ctx['arc'](this['x'],this['y'],this[_0x1cd27b(0x19d)],0x0,Math['PI']*0x2,![]),ctx[_0x1cd27b(0x1ee)]=this[_0x1cd27b(0x22d)],ctx[_0x1cd27b(0x1a6)]();}[_0x3fc743(0x23e)](){const _0x1a6144=_0x3fc743;if(this['x']>canvas[_0x1a6144(0x2cc)]||this['x']<0x0)this[_0x1a6144(0x205)]=-this[_0x1a6144(0x205)];if(this['y']>canvas[_0x1a6144(0x2c1)]||this['y']<0x0)this[_0x1a6144(0x24b)]=-this[_0x1a6144(0x24b)];this['x']+=this[_0x1a6144(0x205)],this['y']+=this[_0x1a6144(0x24b)],this[_0x1a6144(0x20d)]();}}function initParticles(){const _0x20e202=_0x3fc743;particlesArray=[];let _0x2d8abf=canvas[_0x20e202(0x2c1)]*canvas[_0x20e202(0x2cc)]/0x3a98;for(let _0x380086=0x0;_0x380086<_0x2d8abf;_0x380086++){let _0x46a22a=Math[_0x20e202(0x276)]()*1.5+0.5,_0x14b5aa=Math[_0x20e202(0x276)]()*(innerWidth-_0x46a22a*0x2-_0x46a22a*0x2)+_0x46a22a*0x2,_0x3f8d93=Math['random']()*(innerHeight-_0x46a22a*0x2-_0x46a22a*0x2)+_0x46a22a*0x2,_0x1181ad=Math[_0x20e202(0x276)]()*0.4-0.2,_0x5c73ea=Math['random']()*0.4-0.2,_0x2441c8=isDarkMode?_0x20e202(0x289):'rgba(79,\x2070,\x20229,\x200.4)';particlesArray['push'](new Particle(_0x14b5aa,_0x3f8d93,_0x1181ad,_0x5c73ea,_0x46a22a,_0x2441c8));}}function connectParticles(){const _0x46cf89=_0x3fc743;for(let _0x12b288=0x0;_0x12b288<particlesArray[_0x46cf89(0x1bd)];_0x12b288++){for(let _0x31a9e4=_0x12b288;_0x31a9e4<particlesArray[_0x46cf89(0x1bd)];_0x31a9e4++){let _0x42778d=(particlesArray[_0x12b288]['x']-particlesArray[_0x31a9e4]['x'])*(particlesArray[_0x12b288]['x']-particlesArray[_0x31a9e4]['x'])+(particlesArray[_0x12b288]['y']-particlesArray[_0x31a9e4]['y'])*(particlesArray[_0x12b288]['y']-particlesArray[_0x31a9e4]['y']);if(_0x42778d<canvas[_0x46cf89(0x2cc)]/0x14*(canvas[_0x46cf89(0x2c1)]/0x14)){let _0x5688be=0x1-_0x42778d/0x61a8;ctx[_0x46cf89(0x247)]=isDarkMode?_0x46cf89(0x296)+_0x5688be*0.3+')':_0x46cf89(0x27d)+_0x5688be*0.4+')',ctx[_0x46cf89(0x2cf)]=0.6,ctx['beginPath'](),ctx[_0x46cf89(0x1c0)](particlesArray[_0x12b288]['x'],particlesArray[_0x12b288]['y']),ctx[_0x46cf89(0x1f8)](particlesArray[_0x31a9e4]['x'],particlesArray[_0x31a9e4]['y']),ctx[_0x46cf89(0x1f6)]();}}}}function animateParticles(){const _0x246b13=_0x3fc743;requestAnimationFrame(animateParticles),ctx['clearRect'](0x0,0x0,innerWidth,innerHeight);for(let _0x1ba520=0x0;_0x1ba520<particlesArray[_0x246b13(0x1bd)];_0x1ba520++){particlesArray[_0x1ba520]['update']();}connectParticles();}let activeChatId=null,selectedMenuChatId=null,chats=[],isThinkActive=!![],isSearchActive=!![],isMuted=!![],isMultiSelectMode=![],selectedForDelete=new Set(),modalTargetId=null,deleteMode='';applyTheme(),updateUILanguage(),initParticles(),animateParticles(),document[_0x3fc743(0x27e)](_0x3fc743(0x227),function(_0x517700){const _0x56c3c5=_0x3fc743,_0xe2b60b=document[_0x56c3c5(0x2c8)](_0x56c3c5(0x297));if(!_0xe2b60b[_0x56c3c5(0x25c)](_0x517700[_0x56c3c5(0x221)])&&!_0x517700[_0x56c3c5(0x221)][_0x56c3c5(0x1cb)](_0x56c3c5(0x256)))closeContextMenu();const _0x2099f0=document[_0x56c3c5(0x2c8)](_0x56c3c5(0x2a5)),_0x526774=document[_0x56c3c5(0x2c8)](_0x56c3c5(0x274));if(_0x2099f0&&!_0x2099f0[_0x56c3c5(0x2d3)][_0x56c3c5(0x25c)]('hidden')){if(!_0x2099f0['contains'](_0x517700['target'])&&!_0x526774[_0x56c3c5(0x25c)](_0x517700[_0x56c3c5(0x221)]))closeUserMenu();}});function toggleUserMenu(_0x124afe){const _0x32d562=_0x3fc743;_0x124afe[_0x32d562(0x1cc)]();const _0x3409a3=document['getElementById']('user-profile-menu');_0x3409a3[_0x32d562(0x2d3)]['contains']('hidden')?(_0x3409a3[_0x32d562(0x2d3)][_0x32d562(0x290)]('hidden'),setTimeout(()=>{const _0x383d78=_0x32d562;_0x3409a3[_0x383d78(0x2d3)][_0x383d78(0x290)](_0x383d78(0x2d2),_0x383d78(0x263)),_0x3409a3[_0x383d78(0x2d3)][_0x383d78(0x2bc)](_0x383d78(0x279),_0x383d78(0x277));},0xa)):closeUserMenu();}function closeUserMenu(){const _0x27f9b5=_0x3fc743,_0x375fcb=document[_0x27f9b5(0x2c8)](_0x27f9b5(0x2a5));_0x375fcb[_0x27f9b5(0x2d3)]['remove']('opacity-100',_0x27f9b5(0x277)),_0x375fcb[_0x27f9b5(0x2d3)][_0x27f9b5(0x2bc)]('opacity-0','scale-95'),setTimeout(()=>{const _0x423a4d=_0x27f9b5;_0x375fcb['classList'][_0x423a4d(0x2bc)](_0x423a4d(0x241));},0xc8);}function loadChatsFromStorage(){const _0x537b30=_0x3fc743,_0x4966fb=localStorage[_0x537b30(0x24d)](_0x537b30(0x2bd));chats=_0x4966fb?JSON[_0x537b30(0x228)](_0x4966fb):[];}function saveChatsToStorage(){const _0x10338b=_0x3fc743;localStorage[_0x10338b(0x24a)]('cheung_prey_ai_chats',JSON[_0x10338b(0x298)](chats)),renderHistory();}function toggleSidebar(_0x4c489d){const _0x4e3b37=_0x3fc743,_0x141e3e=document[_0x4e3b37(0x2c8)](_0x4e3b37(0x1d3)),_0x3103b3=document[_0x4e3b37(0x2c8)](_0x4e3b37(0x25b));_0x4c489d?(renderHistory(),_0x141e3e[_0x4e3b37(0x2d3)][_0x4e3b37(0x290)](_0x4e3b37(0x278)),_0x3103b3[_0x4e3b37(0x2d3)][_0x4e3b37(0x290)](_0x4e3b37(0x2d2),'pointer-events-none'),_0x3103b3[_0x4e3b37(0x2d3)][_0x4e3b37(0x2bc)](_0x4e3b37(0x279))):(_0x141e3e[_0x4e3b37(0x2d3)][_0x4e3b37(0x2bc)]('-translate-x-full'),_0x3103b3[_0x4e3b37(0x2d3)][_0x4e3b37(0x2bc)](_0x4e3b37(0x2d2),_0x4e3b37(0x286)),_0x3103b3[_0x4e3b37(0x2d3)][_0x4e3b37(0x290)](_0x4e3b37(0x279)),closeContextMenu(),closeUserMenu());}function toggleMode(_0x4101d4){const _0x521bfa=_0x3fc743;if(_0x4101d4===_0x521bfa(0x20a)){isThinkActive=!isThinkActive;const _0x21ce93=document['getElementById'](_0x521bfa(0x1cf));isThinkActive?_0x21ce93[_0x521bfa(0x1b4)]=_0x521bfa(0x28b):_0x21ce93[_0x521bfa(0x1b4)]=_0x521bfa(0x254);}else{if(_0x4101d4===_0x521bfa(0x1cd)){isSearchActive=!isSearchActive;const _0x204f58=document['getElementById'](_0x521bfa(0x295));isSearchActive?_0x204f58[_0x521bfa(0x1b4)]=_0x521bfa(0x216):_0x204f58[_0x521bfa(0x1b4)]='flex\x20items-center\x20space-x-1.5\x20px-3.5\x20py-1.5\x20rounded-full\x20text-sm\x20font-medium\x20bg-blue-50/80\x20dark:bg-blue-900/50\x20text-blue-600\x20dark:text-blue-400\x20hover:bg-blue-100\x20dark:hover:bg-blue-900\x20border\x20border-blue-100\x20dark:border-indigo-800\x20transition-all\x20duration-200';}}}function autoResize(_0x167411){const _0x378777=_0x3fc743;_0x167411['style']['height']=_0x378777(0x27f),_0x167411['style'][_0x378777(0x2c1)]=Math['min'](_0x167411[_0x378777(0x25f)],0x80)+'px';const _0x4385dc=document['getElementById']('mic-icon'),_0x19c8be=document[_0x378777(0x2c8)](_0x378777(0x248));isListening?(_0x4385dc[_0x378777(0x2d3)][_0x378777(0x290)](_0x378777(0x241)),_0x19c8be[_0x378777(0x2d3)][_0x378777(0x2bc)](_0x378777(0x241))):_0x167411['value'][_0x378777(0x19c)]()[_0x378777(0x1bd)]>0x0||selectedFiles[_0x378777(0x1bd)]>0x0?(_0x4385dc[_0x378777(0x2d3)]['add'](_0x378777(0x241)),_0x19c8be[_0x378777(0x2d3)][_0x378777(0x290)]('hidden')):(_0x4385dc[_0x378777(0x2d3)][_0x378777(0x290)](_0x378777(0x241)),_0x19c8be[_0x378777(0x2d3)][_0x378777(0x2bc)](_0x378777(0x241)));}function handleKeyDown(_0x4b85bb){const _0x450298=_0x3fc743;_0x4b85bb[_0x450298(0x1bf)]===_0x450298(0x272)&&!_0x4b85bb['shiftKey']&&(_0x4b85bb[_0x450298(0x28f)](),sendMessage());}function createNewChat(){const _0xaf4896=_0x3fc743;activeChatId=null,document[_0xaf4896(0x2c8)](_0xaf4896(0x25e))[_0xaf4896(0x26b)]='',document[_0xaf4896(0x2c8)]('messages-list')['classList'][_0xaf4896(0x2bc)](_0xaf4896(0x241)),document[_0xaf4896(0x2c8)](_0xaf4896(0x2ad))[_0xaf4896(0x2d3)]['remove']('hidden'),cancelMultiSelect(),toggleSidebar(![]);}function sendMessage(){const _0x14e1c1=_0x3fc743,_0x3d2f07=document[_0x14e1c1(0x2c8)]('user-input'),_0x1043d8=_0x3d2f07[_0x14e1c1(0x1d8)]['trim']();if(!_0x1043d8&&selectedFiles['length']===0x0)return;const _0x5be622=new Date()[_0x14e1c1(0x198)]();if(!activeChatId){let _0x5c8ef7=_0x1043d8?_0x1043d8[_0x14e1c1(0x1bd)]>0x19?_0x1043d8[_0x14e1c1(0x18e)](0x0,0x19)+_0x14e1c1(0x1e4):_0x1043d8:_0x14e1c1(0x2a4)+selectedFiles['length']+'\x20files';activeChatId=_0x14e1c1(0x1d7)+_0x5be622,chats[_0x14e1c1(0x18d)]({'id':activeChatId,'title':_0x5c8ef7,'timestamp':_0x5be622,'messages':[],'pinned':![]});}const _0x40f20=chats['find'](_0x49320f=>_0x49320f['id']===activeChatId),_0x9bf98=selectedFiles['map'](_0x1c22a7=>({'name':_0x1c22a7['name'],'type':_0x1c22a7[_0x14e1c1(0x283)]})),_0x509bbd={'role':'user','content':_0x1043d8,'attachments':_0x9bf98,'timestamp':_0x5be622};_0x40f20[_0x14e1c1(0x266)][_0x14e1c1(0x269)](_0x509bbd),saveChatsToStorage(),showChatScreen(),renderSingleMessage(_0x509bbd),_0x3d2f07[_0x14e1c1(0x1d8)]='',selectedFiles=[],renderSelectedFiles(),autoResize(_0x3d2f07),scrollToBottom(),textBeforeRecording='',sessionText='',setTimeout(()=>generateAIReply(_0x1043d8||_0x14e1c1(0x1f4),_0x40f20),0x190);}async function generateAIReply(_0x26bbb5,_0x4bbb7b){const _0x261670=_0x3fc743,_0x2d207c=document['getElementById'](_0x261670(0x25e)),_0x37478d=document[_0x261670(0x2b5)]('div');_0x37478d[_0x261670(0x1b4)]=_0x261670(0x2aa);const _0x165e6c=_0x261670(0x1d0),_0xe5e20=isThinkActive?'\x0a\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22mb-3\x20bg-indigo-50/90\x20dark:bg-indigo-900/40\x20border\x20border-indigo-100\x20dark:border-indigo-800\x20rounded-xl\x20p-3\x20text-sm\x20text-indigo-900\x20dark:text-indigo-200\x20backdrop-blur-sm\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22flex\x20items-center\x20justify-between\x20font-medium\x20text-indigo-700\x20dark:text-indigo-300\x20mb-1.5\x20cursor-pointer\x22\x20onclick=\x22this.nextElementSibling.classList.toggle(\x27hidden\x27)\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span>🧠\x20ដំណើរការគិត...</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20class=\x22text-[11px]\x20text-indigo-400\x22>លាក់/បង្ហាញ</span>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22text-xs\x20text-indigo-600/90\x20dark:text-indigo-300/90\x20leading-relaxed\x20font-mono\x20pt-1\x20border-t\x20border-indigo-100/60\x20dark:border-indigo-800/60\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x201.\x20វិភាគសំណួរ៖\x20\x22'+escapeHtml(_0x26bbb5)+'\x22<br>2.\x20ស្វែងរកទិន្នន័យ...\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20</div>\x0a\x20\x20\x20\x20\x20\x20\x20\x20</div>':'',_0x4abd24=isSearchActive?_0x261670(0x1e2):'';_0x37478d[_0x261670(0x26b)]='\x0a\x20\x20\x20\x20\x20\x20\x20\x20'+_0x165e6c+'\x0a\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22bg-white/90\x20dark:bg-gray-800\x20text-gray-800\x20dark:text-gray-200\x20px-5\x20py-3.5\x20chat-bubble-ai\x20max-w-[85%]\x20md:max-w-[75%]\x20text-base\x20leading-relaxed\x20border\x20border-white/60\x20dark:border-gray-700\x20shadow-sm\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20'+_0xe5e20+_0x4abd24+_0x261670(0x294),_0x2d207c[_0x261670(0x1f7)](_0x37478d);const _0x18cc89=_0x37478d[_0x261670(0x2a2)](_0x261670(0x281));if(!window[_0x261670(0x209)]){_0x18cc89['innerHTML']=_0x261670(0x25d);return;}try{const _0xe600a=await window[_0x261670(0x209)]['chat']['completions'][_0x261670(0x214)]({'messages':[{'role':'system','content':'You\x20are\x20Cheung\x20Prey\x20AI,\x20a\x20helpful\x20educational\x20assistant.\x20Answer\x20in\x20Khmer\x20if\x20the\x20user\x20asks\x20in\x20Khmer.'},{'role':_0x261670(0x2c2),'content':_0x26bbb5}],'temperature':0.7,'stream':!![]});let _0x552e47='';_0x18cc89[_0x261670(0x26b)]='';for await(const _0x5c5d8a of _0xe600a){const _0x727a7a=_0x5c5d8a[_0x261670(0x1c3)][0x0]?.[_0x261670(0x2c9)]?.[_0x261670(0x199)]||'';_0x552e47+=_0x727a7a,_0x18cc89[_0x261670(0x26b)]=_0x552e47[_0x261670(0x20f)](/\n/g,_0x261670(0x259)),scrollToBottom();}_0x4bbb7b[_0x261670(0x266)][_0x261670(0x269)]({'role':'ai','content':_0x552e47,'timestamp':new Date()['getTime']()}),saveChatsToStorage();}catch(_0x5ee802){_0x18cc89['innerHTML']=_0x261670(0x1b7)+_0x5ee802[_0x261670(0x1ed)];}}function _0xca81(){const _0xd877d0=['ndy4nZjcyuznDKO','4z6a4z624z6A4z6a4z+g4z6o4z6p4z+l','Dgv4Dc14CYb0zxH0lwDYyxKTntaWigzVBNqTC2vTAwjVBgqGChGTmIbTyI0Yig10ltq','rgv2AwnLie1HBMfNzw1LBNq','BxvSDgKTC2vSzwn0lwjHCG','B25LBMq','zgvSzxrLlw1VzgfSlxrPDgXL','DxbKyxrL','cIaGicaGicaGicaGidXKAxyGy2XHC3m9iMjNlwjSDwuTnJaWihrLEhqTD2HPDguGChGTnsbWEs0ZignOyxqTyNvIyMXLlxvZzxiGBwf4lxCTwZGYjv0GBwq6Bwf4lxCTwZCWjv0GDgv4Dc1IyxnLihnOywrVDY1TzcbSzwfKAw5NlxjLBgf4zwqIpGOGicaGicaGicaGicaGicaG','CgLUlw1LBNuTDgv4Da','AgLKzgvU','C2v0DgLUz3mTDgfIigzSzxGGAxrLBxmTy2vUDgvYigDHCc0Zihb4ltmGChKTmI41ihjVDw5KzwqTEgWGDgv4Dc1ZBsbMB250lw1LzgL1Bsb0zxH0lwDYyxKTnZaWigrHCMS6Dgv4Dc1NCMf5ltmWmcbOB3zLCJPIzY1NCMf5lteWmcbKyxjRoMHVDMvYoMjNlwDYyxKTnZaWihrYyw5ZAxrPB24Ty29SB3jZihDOAxrLC3bHy2uTBM93CMfW','DxnLCI1HDMf0yxiTBgv0DgvY','y2HLy2TLza','zg9JDw1LBNrfBgvTzw50','tg9HzgLUzW','C3rYB2TLu3r5Bgu','C2vUzc1Py29U','Aw5JBhvKzxm','C2v0sxrLBq','zgLYzwn0Aw9Uwq','uMvHzhKGD2HLBIb5B3uGyxjL','z2v0sxrLBq','iogEK+gFGEgFH+gEMogFGUgEK+gEKEgFGt8','cIaGicaGicaGicaGidWVzgL2pG','iIdHNPlHN4BHNPBHN4hHNOaHiogEOUgEJ+gET+gELogEMUgEMogETUgEGUgEUIaXmdbnqUgFLa','DMLLDY1Nzw5LCMfS','CM91BMq','yMCTD2HPDguVotaGzgfYAZPIzY1NCMf5ltGWmcbZAgfKB3CTC20GDgv4Dc1IBhvLltyWmcbKyxjRoNrLEhqTyMX1zs00mdaGzM9UDc1TzwrPDw0','zMXLEcbPDgvTCY1Jzw50zxiGC3bHy2uTEc0XlJuGChGTmY41ihb5lteUnsbYB3vUzgvKlwz1BgWGDgv4Dc1ZBsbMB250lw1LzgL1BsbIzY1PBMrPz28TntaVodaGzgfYAZPIzY1PBMrPz28TotaWlZuWihrLEhqTAw5KAwDVltyWmcbKyxjRoNrLEhqTAw5KAwDVltqWmcbOB3zLCJPIzY1PBMrPz28TmtaWigrHCMS6Ag92zxi6yMCTAw5KAwDVltKWmcbIB3jKzxiGyM9YzgvYlwLUzgLNBY0XmdaGzgfYAZPIB3jKzxiTAw5KAwDVltGWmcb0CMfUC2L0Aw9UlwfSBcbKDxjHDgLVBI0Ymda','4z6p4z6+4z6I4z+s4z6t4z6a4z6w4z634z6p4z6h4z624z6f4z6e4z+l4z6f4z624z6a4z6f4z+b4z6j4z6y4z+c4z6t4z6r4z+bpW','lM1LBNuTzg90CY1IDg4','vg9Nz2XLigjLDhDLzw4GtgLNAhqGyw5KierHCMSGtw9Kzq','BxvSDgK','pgjYpG','zgL2','C2LKzwjHCI1VDMvYBgf5','y29UDgfPBNm','4PQG77IpiogEMogFIEgETUgEN+gFIUgEUogEKYbbssdHNPJHNRFHNPpHNPhHNRBHNPpHN4VHNPRHNR3HNOxHNPRHNRBHNPVHN4VHNPhHN4hHN5qG4z6F4z684z6yifjLzNjLC2GG4z6r4z+g4z6w4z+q4z6A4z6y4z+s4z6p4z6e4z6r4z+a4z6p4z+u','BwvZC2fNzxmTBgLZDa','C2nYB2XSsgvPz2H0','cIaGicaGicaGicaGicaGica','u2vUzcbHig1LC3nHz2uGB3iGy2XPy2SGDg8GC3bLywS','Bg9NAw4TzM9YBq','C2nHBguTotu','cIaGicaGicaGicaGicaGicaGicaGpgrPDIbJBgfZCZ0IzMXLEcbPDgvTCY1Jzw50zxiGz2fWltiGyMCTyMX1zs03mdaVntaGCM91BMrLzc1SzYbWltiGDgv4Dc1ZBsbIB3jKzxiGyM9YzgvYlwjSDwuTntaWlZmWiJ4kicaGicaGicaGicaGicaGicaGicaGicaG','4z6B4z674z6u4z6c4z6o4z6t4z644z6f4z+e4z6B','BwvZC2fNzxm','4z6a4z+g4z6w4z674z6e4z6r4z624z6j4z6z4z6a4z6r4z634z6t4z+s4z6t4z6t4z+q4z6zlI4U','D2vSy29Tzq','ChvZAa','cIaGicaGicaGicaGia','Aw5Uzxjive1m','Dgv4Dc1NCMf5ltCWmcbKyxjRoNrLEhqTz3jHEs0ZmdaGAg92zxi6yMCTD2HPDguVnJaGzgfYAZPOB3zLCJPIzY1NCMf5ltGWmc82ma','Aw1Hz2uV','zgvSzxrLlw1VzgfSlw1LC3nHz2u','ChjVzI1WAg9Uzq','Bg9N','nZmWnZmXmerqtNjjDG','rw50zxi','zgLZCgXHEq','DxnLCI1Tzw51lwj0BG','yxbWx2XHBMC','CMfUzg9T','C2nHBguTmtaW','lxrYyw5ZBgf0zs14lwz1BgW','B3bHy2L0Es0Xmda','Dg9W','jImWmZK7','B25ZDgfYDa','CMDIysG5osWGmtaYlcaYndeS','ywrKrxzLBNrmAxn0zw5LCG','yxv0BW','zM9JDxm','lMfPlxrLEhq','C29YDa','DhLWzq','yMCTy2fUDMfZ','uxDLBJiUns0ZqI1jBNn0CNvJDc1XngyXnL8Xlu1mqW','Cg9PBNrLCI1LDMvUDhmTBM9Uzq','4z6B4z674z6u4z6a4z624z6A4z6h4z6h4z+c4z6a4z6h4z624z6a4z+s4z6A4z674z6y','zMXLEcbPDgvTCY1Jzw50zxiGz2fWlteUnsbIzY13AgL0zs85mcbKyxjRoMjNlwDYyxKTodaWihb4ltmGChKTms41ihjVDw5KzwqTEgWGDgv4Dc14CYb0zxH0lwDYyxKTnZaWigrHCMS6Dgv4Dc1NCMf5ltmWmcbIB3jKzxiGyM9YzgvYlwDYyxKTmJaWigrHCMS6yM9YzgvYlwDYyxKTnJaWihnOywrVDY1ZBq','CMDIysGXndCSide5nYWGmJuZlcaWlJqP','zgfYAW','zMXLEcbPDgvTCY1Jzw50zxiGC3bHy2uTEc0XlJuGChGTmY41ihb5lteUnsbYB3vUzgvKlwz1BgWGDgv4Dc1ZBsbMB250lw1LzgL1BsbIzY1PBMrPz28TnJaWihrLEhqTD2HPDguGyM9YzgvYigjVCMrLCI1PBMrPz28TnJaWihnOywrVDY1ZBsb0CMfUC2L0Aw9UlwfSBcbKDxjHDgLVBI0Ymda','C2vYDMLJzvDVCMTLCG','mtmWntC5ngTUEhjTva','phbHDgGGC3rYB2TLlwXPBMvJyxa9iNjVDw5KiIbZDhjVA2uTBgLUzwPVAw49iNjVDw5KiIbZDhjVA2uTD2LKDgG9iJiIigq9iK0Xns41mZyGoc40nJrHnsa1idaGmdeWidCUmdCYBtiUodi4ltKUowe5idKGmcaWmtaGmtiUnZi4ttuUntG2ide1sdrHmsaXidaGmdeTms0XDI00yteGmsaWidaXms0XAdeUntG2BdqUnZa3ltqUnZa3qZeWlJKYmYaZlJy2mYaXmIa0lJeWosaXmIa1DJe0yZaGlJG5ms0XlJa3nYaXlJmZnY0XlJCWnY43mdDmns41odyGmtv6iI8+','ChjLDMvUDerLzMf1Bhq','CMvTB3zL','4z6c4z6o4z6t4z64icHqCM9MAwXLkq','cIaGicaGicaGica8zgL2ignSyxnZpsj3ltKGAc05ihjVDw5KzwqTEgWGyMCTz3jHzgLLBNqTDg8TDhiGzNjVBs1IBhvLltyWmcb0BY1PBMrPz28TnJaWigzSzxGGAxrLBxmTy2vUDgvYigP1C3rPzNKTy2vUDgvYihnOCMLUAY0WihnOywrVDY1ZBsbTDc0WlJuGDgv4Dc13AgL0zsi+cIaGicaGicaGicaGidXZDMCGy2XHC3m9iNCTnsbOltuIigzPBgW9iM5VBMuIihn0CM9Rzt0Iy3vYCMvUDenVBg9YiIbZDhjVA2uTD2LKDgG9iJiIihzPzxDcB3G9iJaGmcaYncaYnci+phbHDgGGC3rYB2TLlwXPBMvJyxa9iNjVDw5KiIbZDhjVA2uTBgLUzwPVAw49iNjVDw5KiIbKpsjnmtiGnweZidmGmcaXidaTns45otCUmti1idqGncaWidaGmc0YlJuYnIa1lJC3idqGncaWidaGmcaUntu2idyUntG4qtqGncaWideGmcaXmIaXofOIpJWVCgf0Ad48Cgf0AcbZDhjVA2uTBgLUzwnHCd0ICM91BMqIihn0CM9Rzs1SAw5LAM9PBJ0ICM91BMqIigq9iK0XmIa1ytmGmYaWideGmsa1lJK5nY4XmJuGnca0idaGmcaXidiUnti2iduUnZCGnca0idaGmcaXls41ntyGnI41odHbnca0idaGmsaXideYide4wIi+pc9WyxrOpJWVC3zNpGOGicaGicaGicaGpc9KAxy+cIaGicaGicaGica8zgL2ignSyxnZpsjIzY13AgL0zs85mcbKyxjRoMjNlwDYyxKTodaWihrLEhqTz3jHEs04mdaGzgfYAZP0zxH0lwDYyxKTmJaWihb4ltuGChKTmY41ignOyxqTyNvIyMXLlwfPig1HEc13lvS4nsvDig1KoM1HEc13lvS3nsvDihrLEhqTyMfZzsbSzwfKAw5NlxjLBgf4zwqGyM9YzgvYigjVCMrLCI13AgL0zs82mcbKyxjRoMjVCMrLCI1NCMf5ltCWmcbZAgfKB3CTC20IpGOGicaGicaGicaGica','rgfUz2vYifPVBMu','cIaGicaGicaGica8zgL2ignSyxnZpsjHAs10zxH0ihnWywnLlxKTmsi+4z6a4z+g4z6w4z674z6e4z6c4z634z6plI4Upc9KAxy+cIaGicaGicaGpc9KAxy+','yNrUlxnLyxjJAa','CMDIysGXndCSide5nYWGmJuZla','AgLZDg9YEs1JB250zxH0lw1LBNu','C3rYAw5NAwz5','ywKTCgvYy2vUDc10zxH0','z2v0qM91BMrPBMDdBgLLBNrszwn0','4z6u4z624z6t4z6A4z6a4z+s4z6F4z624z6r4z674z6a4z6w4z+q4z6p4z+m4z6y4z624z6t4z6k4z+e4z6z4z6h4z+e4z6c4z6h4z+q4z6ziq','tgfUz3vHz2u','jMfTCdS','y3bFy3vYCMvUDfvZzxi','pc9ZCgfUpGOGicaGicaGicaGica8l2rPDJ4','yMvNAw5qyxrO','ntu0odaYBffVvhHW','CxvLCNLtzwXLy3rVCG','lI9ZDY5QCW','vxbSB2fKzwqG','DxnLCI1WCM9MAwXLlw1LBNu','mZzYqwDPB0O','AgfZ','pc9KAxy+','y3bFDxnLCNm','zMXLEcbPDgvTCY1ZDgfYDcbZCgfJzs14ltmGBwiTnq','pc9ZCgfUpG','4z6p4z6+4z6I4z+s4z6t4z6a4z6w4z634z6p4z6h4z624z6f4z6e4z+l4z6B4z674z6u4z6a4z624z6A4z6h4z6h4z+c4z6a4z6t4z+b4z+h4z6y4z+c4z6t4z6r4z+bpYdHNP/HNOdHNPJHN5lHNPJHNPFHNRBHNPBHNPpHN4hHN4FHNPJHNRFHNPpHNQlHNRBHNOxHNO/HN5lHNPRHNQhHNPtHN4VHNPZHNRFHNONHNPtHNRBHNPpHNPhHN4hHN5q','D2vSy29Tzs1Zy3jLzw4','zMLUza','C2LUz2XL','ChjVzI1NB29NBgu','Dgv4Da','Dgv4DenVBNrLBNq','u2vHCMnO','DMLLDY1WCM9MAwXL','y3jLyxrLrwXLBwvUDa','pgrPDJ4','4z6a4z+g4z6w4z674z6e4z6A4z+a4z6u4z6f4z+glI4U','Dgv4Dc1IBhvLltyWmcbMB250lw1LzgL1Bq','zM9YrwfJAa','C2LNBNvWlxbHC3n3B3jK','zMXLEcbQDxn0Awz5lwvUzcbTyI00','ywrK','y2HLDw5Nx3bYzxLFywLFy2HHDhm','Bxv0zs1Py29U','DgLTzxn0yw1W','C3rHCNq','AgvPz2H0','DxnLCG','z2v0qxr0CMLIDxrL','Bg9NAw4TCgfZC3DVCMq','y29UDgLUDw91CW','ChjVzI1LBwfPBa','CgLUBMvK','z2v0rwXLBwvUDej5swq','zgvSDge','zxjYB3i','cIaGicaGicaGica8l2rPDJ4','D2LKDgG','C3rVCa','DgHLBwuTDg9Nz2XL','BgLUzvDPzhrO','z2v0rgf0zq','zgLZCgXHEs1LBwfPBa','B3bHy2L0Es0W','y2XHC3nmAxn0','A20Ts0G','Dw5ZAgLMDa','C3vIC3rYAw5N','ywKTChjVz3jLC3mTyMfY','4P2mifnxigzHAwXLzdO','zMLUzeLUzgv4','CMLNAhq','DxnLCKbNBwfPBc5JB20','r2vUzxjHBa','BgfUz3vHz2uTC2vSzwn0','zMXLEa','4z6k4z+e4z+h4z6a4z624z6A4z6b4z+s4z6r4z624z6F4z+l','z2v0vgLTzq','y29UDgvUDa','DgfIlwDLBMvYywW','BwfPBI1HCha','DhjPBq','C2L6zq','D2vSy29Tzs10zxH0','ywKTBg9HzgLUzY1Zy3jLzw4','ywKTC3rHDhvZlxrLEhq','C3bSAwnL','phn2zYbJBgfZCZ0IDY00igGTncb0zxH0lwjSDwuTntaWihnOCMLUAY0WiIbMAwXSpsjJDxjYzw50q29SB3iIihzPzxDcB3G9iJaGmcaYncaYnci+phbHDgGGzd0Itte2ideYvJrOmvyYsdD2mMGXDJHSltiGmNyYAdv2nMGYDI02Adv2ltjSltiTmNOIlZ48l3n2zZ4','yxr0ywnOBwvUDhm','CxvLCNLtzwXLy3rVCKfSBa','4z6I4z+k4z644z6y4z+c4z6BiogERogEM+gFGEgEGEgEN+gEMogFKUgEHogETUgEJ+gFI+gEMogET+gEK+gEJ+gFKUgEMUgEUEgEMogEJ+gFKUgEMUgEVogENceG4z6F4z684z6y4z6w4z+s4z6z4z624z6z4z624z6y4z6y4z+s4z6p4z6e4z6r4z+a4z6p4z+u','zMLSBa','y2f0y2G','BMfTzq','u3bLzwnOihjLy29NBML0Aw9UigvYCM9Y','4z6c4z+s4z6A4z6u4z+l4z6c4z+s4z6A4z6e4z6N4z6u4z6a4z6A4z6o4z+n','4z6u4z+s4z6p4z684z6A4z6A4z6C4z624z6eieXPz2H0iogEK+gET+gEHcbeyxjRie1Vzgu','CMvJB3jKAw5Nlxb1BhnL','rgvSzxrLigfJy291BNq','Bg9NAw4Tzw1HAwW','Bg9Hza','vgHPBMS','4z6f4z624z6a4z6f4z+b4z6j4z6w4z644z6c4z+s4z6A4z6u4z+l4z6N4z6u4z6a4z6A4z6o4z+n','Aw5UzxjxAwr0Aa','w2rHDgeTBgfUz10','y2XHC3noyw1L','4z6p4z+s4z6A4z+a4z6y4z6b4z+s4z6B4z694z6t4z6t4z+f4z6w4z+b4z6B4z6o4z624z6a4z+p4z6u4z624z6t','CMvZDwX0sw5KzxG','4P2miogEMogETUgEK+gELogEIEgFKUgEOogETJOG','C2nYB2XSvg9W','AgLZDg9YEs1ZzwfYy2G','zgvSzxrLlw1VzgfS','phn2zYbJBgfZCZ0IDY00igGTncb0zxH0lwjSDwuTmZaWihnOCMLUAY0WiIbMAwXSpsjUB25LiIbZDhjVA2u9iMn1CNjLBNrdB2XVCIiGDMLLD0jVEd0ImcaWidi0idi0iJ48Cgf0AcbZDhjVA2uTBgLUzwnHCd0ICM91BMqIihn0CM9Rzs1SAw5LAM9PBJ0ICM91BMqIihn0CM9Rzs13Awr0Ad0ImIiGzd0IttCGmJfOmtbHmIaYidaGmdaYltjwos40mtrHmsaXidaGmdaTlJi5mY0UnZa3Bc01lJqXnc01lJqXneeXideGmcaWmdeYlJu4nIaZsdDHmIaYidaGmdaTmIaYDJe0ytiGmIaWidaWmIaYEIiVpJWVC3zNpG','DgfIlwj0BI1SB2DPBG','BgvUz3rO','Aw5UzxjizwLNAhq','A2v5','Bw92zvrV','C2v0DgLUz3mTDgfIigzSzxGGAxrLBxmTy2vUDgvYigDHCc0Zihb4ltmGChKTmI41ihjVDw5KzwqTEgWGDgv4Dc1ZBsbMB250lw1LzgL1BsbIzY1IBhvLltuWigrHCMS6yMCTyMX1zs05mdaVndaGDgv4Dc1IBhvLltyWmcbKyxjRoNrLEhqTyMX1zs00mdaGDhjHBNnPDgLVBI1JB2XVCNmGD2HPDgvZCgfJzs1UB3DYyxa','z2vUzxjHBa','y2HVAwnLCW','B25LCNjVCG','4z6B4z674z6u4z6a4z624z6A4z6h4z6h4z+c4z6a','AxngAw5HBa','CMvNAxn0zxi','y2XLyxi','mZKZDw1YqKnX','C2v0DgLUz3mTBw9KywW','y2XVC2vZDa','C3rVCfbYB3bHz2f0Aw9U','C2vHCMnO','DhjHBNnMB3jT','yNrUlxrOAw5R','pgrPDIbJBgfZCZ0IDY05igGTosbYB3vUzgvKlxHSigjNlwDYywrPzw50lxrVlxrYigzYB20TyMX1zs02mdaGDg8TAw5KAwDVltyWmcbMBgv4igL0zw1ZlwnLBNrLCIbQDxn0Awz5lwnLBNrLCIbZAhjPBMSTmcbZAgfKB3CTC20GBxqTmc41ihrLEhqTD2HPDguIpGOGicaGicaGidXZDMCGy2XHC3m9iNCTnsbOltuIigzPBgW9iM5VBMuIihn0CM9Rzt0Iy3vYCMvUDenVBg9YiIbZDhjVA2uTD2LKDgG9iJiIihzPzxDcB3G9iJaGmcaYncaYnci+phbHDgGGC3rYB2TLlwXPBMvJyxa9iNjVDw5KiIbZDhjVA2uTBgLUzwPVAw49iNjVDw5KiIbKpsjnmtiGnweZidmGmcaXidaTns45otCUmti1idqGncaWidaGmc0YlJuYnIa1lJC3idqGncaWidaGmcaUntu2idyUntG4qtqGncaWideGmcaXmIaXofOIpJWVCgf0Ad48Cgf0AcbZDhjVA2uTBgLUzwnHCd0ICM91BMqIihn0CM9Rzs1SAw5LAM9PBJ0ICM91BMqIigq9iK0XmIa1ytmGmYaWideGmsa1lJK5nY4XmJuGnca0idaGmcaXidiUnti2iduUnZCGnca0idaGmcaXls41ntyGnI41odHbnca0idaGmsaXideYide4wIi+pc9WyxrOpJWVC3zNpGOGicaGica8l2rPDJ4','CgXHy2vOB2XKzxi','mZaYmta4wg5xBNHg','C2LKzwjHCG','ChjVzI1Uyw1L','Dgv4Dc13AgL0zq','4z6c4z634z6p','y2HHDf8','DMfSDwu','4z6r4z684z6r4z+ficHhzw5LCMfSkq','CM9Szq','C2LNBNvWlwvTywLS','z2v0q29UDgv4Da','zMLSDgvY','4z6a4z624z6A4z6w4z+s4z6A4z6y4z624z6tisdHNOdHNRBHNPRHNPVHNRVHNPtHNOlHNO7HNPpHNRJHNPpHNRNHNOtHNPVHNRVHNPtHNPtHN5lHNPRHNPZHNO/HN5lHNO/HNRFHNOFHNOFHN4lHNOaG4z6t4z634z6e4z6r4z634z6t4z+s4z6t4z6t4z+q4z6z4z6r4z624z+g4z6e4z6I4z6F4z+l4z6A4z6u4z6F4z+l4z6I4z+s4z6t4z6a4z6h4z624z6A4z+a4z6e4z6A4z6G4z684z6p4z+uiogEJ+gEVUgEOUgFKUgEK+gEGogELUgET+gEJ+gEH+gETUgEHEgEHogFI+gEKUgFKUgENogEVUgELogFGUgELogEK+gFGEgFH+gEMogFGUgEK+gEKEgFGt8','y2HHCKf0','zw4Tvvm','pc9ZCgfUpGOGicaGicaGicaGicaGicaGicaGidWVzgL2pGOGicaGicaGicaGicaGicaG','cIaGicaGicaGpgrPDIbJBgfZCZ0IDgv4Dc14CYb0zxH0lwjSDwuTnJaWigrHCMS6Dgv4Dc1IBhvLltqWmcbMB250lw1LzgL1BsbIzY1IBhvLltuWlZKWigrHCMS6yMCTyMX1zs05mdaVndaGChGTmI41ihb5lteGCM91BMrLzc1TzcbTyI0ZigLUBgLUzs1IBg9JAYbIB3jKzxiGyM9YzgvYlwjSDwuTmtaWigrHCMS6yM9YzgvYlwjSDwuTodaWiJ4kicaGicaGicaGipcFJjaG4z6u4z624z6t4z6F4z+s4z6C4z+c4z6e4z6A4z6a4z6w4z+q4z6p4z+m4z6y4z624z6t4z6u4z6f4z+s4z6f4z674z6u4z+s4z6u4z6t4z+s4z6t4z6B4z6+4z6u4z6o4z+s4z6p4z624z6jifDLyGOGicaGicaGidWVzgL2pG','zw1WDhKTAgLZDg9YEs1TC2C','lI4U','uhjVzMLSzq','CMvZAxPL','4z6y4z+s4z6F4z634z6B4z6y4z634z6j','vgHLBwu','B25JBgLJAW','phn2zYbJBgfZCZ0IDY00igGTnciGzMLSBd0Iy3vYCMvUDenVBg9YiIb2Awv3qM94psiWidaGmJqGmJqIpJXJAxjJBguGy3G9iJuIign5psiXmIiGCJ0Ims44iI8+pgnPCMnSzsbJEd0ImtiIign5psiXmIiGCJ0Ims44iI8+pgnPCMnSzsbJEd0ImtKIign5psiXmIiGCJ0Ims44iI8+pc9ZDMC+','Dg9vChbLCKnHC2u','4z6a4z+g4z6w4z674z6e4z6F4z+s4z6p4z624z6u4z+llI4UicJHNOxHNRVHNOxHNPJHNRJHNOdHN5lHNPRHNRZHNPJHN5lHNO/HNOtHNPhHN4dHNO/HNORHNR7HNPJHN5lHNPtHNRJHNOJHNPtHN4SP','BwvZC2fNzq','zMLSBfn0EwXL','Bg9JyxrPB24','C2vSzwn0zwqTy291BNq','qNjVD3nLCIdHNPRHNPtHNP/HN4VHNQlHN5lHNPpHNOdHNPJHNRFHNPpHNOlHNRBHN4BHNPhHN5lHNPRHNOdHNRBHNPRHNPtHN4BHNPtHN5lHNPVHN4lHNOtHNP/HN4BHNQhHN4hHNOtHNPhHN4hHN5qG4z6F4z684z6y4z6u4z+s4z6A4z6+ienOCM9TzsdHNQWGrwrNzEgFLa','Aw5UzxjuzxH0','CMvUyw1LlwLUChv0','4z6b4z+s4z6j4z674z+g4z6u4z624z6t4z6v4z+s4z6j4z6+4z6V4z6a4z6F4z624z6A','mtC5ndqXuLnft3nv','C3rYB2TL','yxbWzw5Kq2HPBgq','BgLUzvrV','BM9Uzq','4z6w4z+q4z6p4z+m4z6y4z624z6t4z6c4z6o4z6t4z64','yM90Dg9T','pgrPDIbJBgfZCZ0IBxqTmIbZCgfJzs15lteUnsi+','4z6b4z+s4z6r4z624z6F4z+l','CMvZDwX0CW','4z6V4z6a4z6F4z624z6Aici','Aw50zxjPBvjLC3vSDhm','4z6v4z+s4z6j4z6+4z6F4z624z6AiogERcdHNP/HNOtHN5lHNOdHNO/HN4VHNORHNR7HNPJHN5lHNPtHNRJHNPpHNRFHNPNHNRBHNPK','BwLJlwLJB24','Ag92zxi6yMCTD2HPDguVntaGzgfYAZPOB3zLCJPIzY1NCMf5ltCWmc81ma','yNv0Dg9U','zgLYzwn0Aw9Uwa','mtaWjq','nwHYqMX4yG','tg9Nig91DcbVzIbHBgWGzgv2AwnLCW','ywLfBMDPBMu','DgHPBMS','phnWyw4Gy2XHC3m9iNrYDw5JyxrLihbYltiGzMXLEc0XigzSzxGGAxrLBxmTy2vUDgvYigDHCc0YiJ4','zMLSzs1WCMv2Awv3lwnVBNrHAw5LCG','zhjHDW','rMv0y2HPBMC','CMvWBgfJzq','Dgv4Dc1YzwqTntaW','zNjVBq','C3r5Bgu','phbHDgGGC3rYB2TLlwXPBMvJyxa9iNjVDw5KiIbZDhjVA2uTBgLUzwPVAw49iNjVDw5KiIbZDhjVA2uTD2LKDgG9iJiIigq9iK01lJu4nIaXnuG0yteGmsaWidaXlteTmxyTngeXideGmcaWmteTmwGXlJu4nMW0lJCWnY00lJCWn0mXmc45mJmGmY42nJmGmtiGnc4XmdKGmtiGnxyXngmWic44oteTms4WnZCGms4ZmZCTms43mdCUnZa3tduUntG2ide1EIiVpJXWyxrOihn0CM9Rzs1SAw5Ly2fWpsjYB3vUzciGC3rYB2TLlwXPBMvQB2LUpsjYB3vUzciGC3rYB2TLlxDPzhrOpsiYiIbKpsjnmtCGmtrSmI0YBtaGmgWYltjTltiGmMWTmI0YBtiGmMWYidiIlZ4','y3jLyxrL','z2v0tw9UDgG','zMXLEcbPDgvTCY1Jzw50zxiGC3bHy2uTEc0XlJuGChGTmY41ihb5lteUnsbYB3vUzgvKlwz1BgWGDgv4Dc1ZBsbMB250lw1LzgL1BsbIzY1IBhvLltyWmcb0zxH0lxDOAxrLigjVCMrLCIbIB3jKzxiTyMX1zs02mdaGC2HHzg93lxnTihrYyw5ZAxrPB24TywXSigr1CMf0Aw9UltiWma','jMX0oW','yxbWx3rOzw1L','BgLNAhq','tgLZDgvUAw5NlI4UicHdBgLJAYbTAwmGywDHAw4GDg8GC3rVCcK','jNf1B3q7','4z6p4z+g4z6u4z6t4z+l4z6c4z+s4z6A4z+e4z+h4z6q4z+s4z6t4z624z6a4z+l','Dhj1zq','4z6x4z624z6F4z62icHmyw5NDwfNzsK','Dgv4Dc1NCMf5ltqWma','yxv0Ac1Zy3jLzw4','DgfYz2v0','phn2zYbJBgfZCZ0IDY0ZlJuGAc0ZlJuGDgv4Dc1IBhvLltuWmciGzMLSBd0IBM9UzsiGC3rYB2TLpsjJDxjYzw50q29SB3iIihzPzxDcB3G9iJaGmcaYncaYnci+phbHDgGGC3rYB2TLlwXPBMvJyxa9iNjVDw5KiIbZDhjVA2uTBgLUzwPVAw49iNjVDw5KiIbZDhjVA2uTD2LKDgG9iJiIigq9iK03idiXAdeWytiGmIaWidaWmI0YvJKUnde0yteGmsaWidaWls4YotmTlJCWn2WTns40mtqTns40mtrbmsaXidaGmdaXmI41odyGm0G3ytiGmIaWidaWltiGmNyXngeYidiGmcaWmdiGmNOIlZ48l3n2zZ4','B3bHy2L0Eq','C3rHCNrZv2L0Aa','zgLZCgXHEs11C2vYBMfTzq','zw1HAwW','y2XPy2S','CgfYC2u','ignSyxnZpsj3ltqGAc00ihrLEhqTyMX1zs02mdaGCM91BMrLzcbIB3jKzxiTz3jHEs0ZmdaGzM9JDxm6CMLUzY1IBhvLltuWmcbWB2LUDgvYlwv2zw50CY1UB25LiJ4kicaGicaGicaGicaGica8C3bHBIbJBgfZCZ0IDhj1BMnHDguG','DxnLCI1PBNb1Da','CMvUyw1Llw1VzgfS','DgL0Bgu','y29SB3i','z2v0rNvSBfLLyxi','DhjHBNnJCMLWDa','4P2miogELogEMUgETUgEH+gFKogEMtOG','u2v0DgLUz3m','mtu4neLqv0ntCa','y2HHDc1JB250ywLUzxi','y3vYCMvUDfrHCMDLDa','CgfZC3DVCMq','4z6w4z6o4z+m4z6v4z+s4z6r4z+d4z6b4z624z6e4z6a4z+s4z6A4z+e4z6zicHuAgvTzsK'];_0xca81=function(){return _0xd877d0;};return _0xca81();}function renderSingleMessage(_0x502d06){const _0xc717e6=_0x3fc743,_0x1e60d9=document[_0xc717e6(0x2c8)](_0xc717e6(0x25e));if(_0x502d06[_0xc717e6(0x1da)]===_0xc717e6(0x2c2)){const _0x26c306=document[_0xc717e6(0x2b5)](_0xc717e6(0x25a));_0x26c306[_0xc717e6(0x1b4)]=_0xc717e6(0x2bb);let _0x1f2de5='';_0x502d06['attachments']&&_0x502d06[_0xc717e6(0x1a3)][_0xc717e6(0x1bd)]>0x0&&(_0x1f2de5=_0xc717e6(0x1fc),_0x502d06['attachments']['forEach'](_0x2ee319=>{const _0x5719c6=_0xc717e6,_0x45e048=_0x2ee319['type']&&_0x2ee319['type'][_0x5719c6(0x224)](_0x5719c6(0x26d)),_0xe800ec=_0x45e048?'<svg\x20class=\x22w-4\x20h-4\x20text-green-300\x20shrink-0\x22\x20fill=\x22none\x22\x20stroke=\x22currentColor\x22\x20viewBox=\x220\x200\x2024\x2024\x22><path\x20stroke-linecap=\x22round\x22\x20stroke-linejoin=\x22round\x22\x20stroke-width=\x222\x22\x20d=\x22M4\x2016l4.586-4.586a2\x202\x200\x20012.828\x200L16\x2016m-2-2l1.586-1.586a2\x202\x200\x20012.828\x200L20\x2014m-6-6h.01M6\x2020h12a2\x202\x200\x20002-2V6a2\x202\x200\x2000-2-2H6a2\x202\x200\x2000-2\x202v12a2\x202\x200\x20002\x202z\x22/></svg>':_0x5719c6(0x1bb);_0x1f2de5+=_0x5719c6(0x264)+_0xe800ec+'\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<span\x20class=\x22truncate\x20max-w-[150px]\x20md:max-w-[200px]\x22>'+escapeHtml(_0x2ee319[_0x5719c6(0x1a8)])+_0x5719c6(0x1e1);}),_0x1f2de5+=_0xc717e6(0x2a8)),_0x26c306[_0xc717e6(0x26b)]=_0xc717e6(0x23f)+(_0x502d06[_0xc717e6(0x199)]?_0xc717e6(0x2b6)+escapeHtml(_0x502d06[_0xc717e6(0x199)])+_0xc717e6(0x2a8):'')+_0xc717e6(0x260)+_0x1f2de5+_0xc717e6(0x24f),_0x1e60d9[_0xc717e6(0x1f7)](_0x26c306);}else{const _0x4bb494=document[_0xc717e6(0x2b5)](_0xc717e6(0x25a));_0x4bb494[_0xc717e6(0x1b4)]=_0xc717e6(0x2aa),_0x4bb494[_0xc717e6(0x26b)]=_0xc717e6(0x292)+_0x502d06[_0xc717e6(0x199)]+_0xc717e6(0x2cb),_0x1e60d9[_0xc717e6(0x1f7)](_0x4bb494);}scrollToBottom();}function showChatScreen(){const _0x50f911=_0x3fc743;document[_0x50f911(0x2c8)]('welcome-screen')['classList']['add'](_0x50f911(0x241)),document['getElementById'](_0x50f911(0x25e))['classList'][_0x50f911(0x290)]('hidden');}function loadChatThread(_0x520c09){const _0x54ab1d=_0x3fc743;activeChatId=_0x520c09;const _0x2a0d11=chats[_0x54ab1d(0x2ae)](_0x4e719c=>_0x4e719c['id']===_0x520c09);if(!_0x2a0d11)return;toggleSidebar(![]),showChatScreen();const _0x339c99=document[_0x54ab1d(0x2c8)](_0x54ab1d(0x25e));_0x339c99[_0x54ab1d(0x26b)]='',_0x2a0d11[_0x54ab1d(0x266)][_0x54ab1d(0x2b9)](_0x2364b1=>renderSingleMessage(_0x2364b1)),renderHistory();}function renderHistory(){const _0x3639d1=_0x3fc743,_0x336d4a=document[_0x3639d1(0x2c8)]('history-container'),_0x124912=document[_0x3639d1(0x2c8)](_0x3639d1(0x1e3)),_0x5d4696=(document['getElementById'](_0x3639d1(0x1b9))[_0x3639d1(0x1d8)]||'')['toLowerCase']();_0x336d4a[_0x3639d1(0x26b)]='';const _0x2027d3=[...chats][_0x3639d1(0x282)]((_0x48a6d5,_0xc93f0c)=>{const _0x5e2d60=_0x3639d1;if(_0x48a6d5['pinned']&&!_0xc93f0c[_0x5e2d60(0x2c7)])return-0x1;if(!_0x48a6d5[_0x5e2d60(0x2c7)]&&_0xc93f0c[_0x5e2d60(0x2c7)])return 0x1;return _0xc93f0c[_0x5e2d60(0x2bf)]-_0x48a6d5['timestamp'];}),_0x2d5fe7=_0x2027d3['filter'](_0x134982=>_0x134982[_0x3639d1(0x22c)]['toLowerCase']()[_0x3639d1(0x249)](_0x5d4696));if(_0x2d5fe7[_0x3639d1(0x1bd)]===0x0){_0x124912[_0x3639d1(0x2d3)][_0x3639d1(0x290)](_0x3639d1(0x241));return;}else _0x124912['classList']['add'](_0x3639d1(0x241));const _0x34f67e=[],_0x142d69=[],_0x11bca0=[],_0x555e75=[],_0x1925b0=new Date(),_0x213904=new Date(_0x1925b0[_0x3639d1(0x22e)](),_0x1925b0[_0x3639d1(0x215)](),_0x1925b0[_0x3639d1(0x2d0)]())[_0x3639d1(0x198)](),_0x1cd213=_0x213904-0x18*0x3c*0x3c*0x3e8;_0x2d5fe7[_0x3639d1(0x2b9)](_0x21d06b=>{const _0x279c00=_0x3639d1;if(_0x21d06b['pinned'])_0x34f67e[_0x279c00(0x269)](_0x21d06b);else{if(_0x21d06b[_0x279c00(0x2bf)]>=_0x213904)_0x142d69[_0x279c00(0x269)](_0x21d06b);else{if(_0x21d06b[_0x279c00(0x2bf)]>=_0x1cd213)_0x11bca0[_0x279c00(0x269)](_0x21d06b);else _0x555e75[_0x279c00(0x269)](_0x21d06b);}}});if(_0x34f67e[_0x3639d1(0x1bd)]>0x0)_0x336d4a['appendChild'](createHistoryGroup('បានខ្ទាស់',_0x34f67e));if(_0x142d69[_0x3639d1(0x1bd)]>0x0)_0x336d4a['appendChild'](createHistoryGroup('ថ្ងៃនេះ',_0x142d69));if(_0x11bca0['length']>0x0)_0x336d4a['appendChild'](createHistoryGroup(_0x3639d1(0x1e7),_0x11bca0));if(_0x555e75[_0x3639d1(0x1bd)]>0x0)_0x336d4a['appendChild'](createHistoryGroup('៧\x20ថ្ងៃ',_0x555e75));}function createHistoryGroup(_0x5bdd3f,_0x1d6300){const _0x4c7ad7=_0x3fc743,_0x4805ae=document[_0x4c7ad7(0x2b5)](_0x4c7ad7(0x25a)),_0x612ec2=document[_0x4c7ad7(0x2b5)]('div');_0x612ec2[_0x4c7ad7(0x1b4)]=_0x4c7ad7(0x239),_0x612ec2[_0x4c7ad7(0x2b2)]=_0x5bdd3f;const _0x389e5b=document[_0x4c7ad7(0x2b5)]('div');return _0x389e5b[_0x4c7ad7(0x1b4)]='space-y-1',_0x1d6300['forEach'](_0x2d47fe=>{const _0x4aa0fc=_0x4c7ad7,_0x26150c=document[_0x4aa0fc(0x2b5)](_0x4aa0fc(0x25a)),_0x402bb5=_0x2d47fe['id']===activeChatId,_0x48159b=selectedForDelete['has'](_0x2d47fe['id']);_0x26150c[_0x4aa0fc(0x1b4)]='group\x20relative\x20flex\x20items-center\x20justify-between\x20px-3.5\x20py-2.5\x20text-sm\x20rounded-xl\x20transition-all\x20cursor-pointer\x20'+(isMultiSelectMode?_0x4aa0fc(0x203):_0x402bb5?_0x4aa0fc(0x253):_0x4aa0fc(0x26c)),_0x26150c[_0x4aa0fc(0x1e9)]=_0x3b1ede=>{const _0x37d1bf=_0x4aa0fc;if(isMultiSelectMode){if(selectedForDelete[_0x37d1bf(0x2a7)](_0x2d47fe['id']))selectedForDelete['delete'](_0x2d47fe['id']);else selectedForDelete['add'](_0x2d47fe['id']);updateMultiSelectUI(),renderHistory();}else!_0x3b1ede['target'][_0x37d1bf(0x1cb)]('.menu-dots-btn')&&loadChatThread(_0x2d47fe['id']);};if(isMultiSelectMode)_0x26150c[_0x4aa0fc(0x26b)]='\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<div\x20class=\x22flex\x20items-center\x20space-x-3\x20truncate\x20flex-1\x22>\x0a\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20\x20<input\x20type=\x22checkbox\x22\x20'+(_0x48159b?'checked':'')+_0x4aa0fc(0x229)+(_0x402bb5?_0x4aa0fc(0x2b8):'')+'\x22>'+escapeHtml(_0x2d47fe[_0x4aa0fc(0x22c)])+_0x4aa0fc(0x29f);else{const _0x3d3abe=_0x2d47fe[_0x4aa0fc(0x2c7)]?_0x4aa0fc(0x1a2):'';_0x26150c['innerHTML']=_0x4aa0fc(0x20b)+_0x3d3abe+escapeHtml(_0x2d47fe[_0x4aa0fc(0x22c)])+_0x4aa0fc(0x2ab);const _0xbf1e3c=document[_0x4aa0fc(0x2b5)](_0x4aa0fc(0x204));_0xbf1e3c[_0x4aa0fc(0x1b4)]='menu-dots-btn\x20p-1.5\x20rounded-lg\x20hover:bg-blue-100/80\x20dark:hover:bg-gray-600\x20transition-colors\x20'+(_0x402bb5?'block\x20text-blue-500':'hidden\x20group-hover:block\x20text-gray-500\x20dark:text-gray-400'),_0xbf1e3c[_0x4aa0fc(0x26b)]=_0x4aa0fc(0x1ea),_0xbf1e3c['onclick']=_0x50055c=>{const _0x5e9936=_0x4aa0fc;_0x50055c[_0x5e9936(0x1cc)](),openContextMenu(_0x50055c,_0x2d47fe['id']);},_0x26150c[_0x4aa0fc(0x1f7)](_0xbf1e3c);}_0x389e5b[_0x4aa0fc(0x1f7)](_0x26150c);}),_0x4805ae[_0x4c7ad7(0x1f7)](_0x612ec2),_0x4805ae['appendChild'](_0x389e5b),_0x4805ae;}function openContextMenu(_0x3b2455,_0x18382b){const _0x518336=_0x3fc743;selectedMenuChatId=_0x18382b;const _0x325721=document[_0x518336(0x2c8)](_0x518336(0x297)),_0x7e8bcd=chats[_0x518336(0x2ae)](_0x6995a5=>_0x6995a5['id']===_0x18382b);document[_0x518336(0x2c8)](_0x518336(0x240))[_0x518336(0x2b2)]=_0x7e8bcd[_0x518336(0x2c7)]?_0x518336(0x197):_0x518336(0x1fd);const _0x3bed95=_0x3b2455[_0x518336(0x234)][_0x518336(0x29a)]();_0x325721[_0x518336(0x2d3)][_0x518336(0x290)]('hidden');let _0x4da0d5=_0x3bed95[_0x518336(0x1fb)]+0x4,_0x1cabfc=_0x3bed95[_0x518336(0x192)]-0xd0;if(_0x1cabfc<0xa)_0x1cabfc=0xa;if(_0x4da0d5+0x96>window[_0x518336(0x1be)])_0x4da0d5=_0x3bed95['top']-0x96;_0x325721[_0x518336(0x212)][_0x518336(0x27a)]=_0x4da0d5+'px',_0x325721[_0x518336(0x212)]['left']=_0x1cabfc+'px';}function closeContextMenu(){const _0x118d0f=_0x3fc743;document['getElementById'](_0x118d0f(0x297))[_0x118d0f(0x2d3)]['add']('hidden'),selectedMenuChatId=null;}function menuRenameChat(){const _0x3e2cd6=_0x3fc743;if(!selectedMenuChatId)return;modalTargetId=selectedMenuChatId;const _0x9a2f6b=chats[_0x3e2cd6(0x2ae)](_0x4318e2=>_0x4318e2['id']===modalTargetId);_0x9a2f6b&&(document[_0x3e2cd6(0x2c8)](_0x3e2cd6(0x1f3))[_0x3e2cd6(0x1d8)]=_0x9a2f6b[_0x3e2cd6(0x22c)],document[_0x3e2cd6(0x2c8)](_0x3e2cd6(0x22b))[_0x3e2cd6(0x2d3)][_0x3e2cd6(0x290)](_0x3e2cd6(0x241)),setTimeout(()=>document[_0x3e2cd6(0x2c8)](_0x3e2cd6(0x1f3))[_0x3e2cd6(0x280)](),0x32)),closeContextMenu();}function saveRename(){const _0x38c337=_0x3fc743,_0x218a1c=document[_0x38c337(0x2c8)]('rename-input')[_0x38c337(0x1d8)]['trim']();if(_0x218a1c&&modalTargetId){const _0x364874=chats[_0x38c337(0x2ae)](_0x59cac6=>_0x59cac6['id']===modalTargetId);_0x364874&&(_0x364874['title']=_0x218a1c,saveChatsToStorage());}closeModal(_0x38c337(0x22b)),modalTargetId=null;}function menuPinChat(){const _0x1c41cd=_0x3fc743;if(!selectedMenuChatId)return;const _0x53de0f=chats[_0x1c41cd(0x2ae)](_0x4535af=>_0x4535af['id']===selectedMenuChatId);_0x53de0f&&(_0x53de0f['pinned']=!_0x53de0f[_0x1c41cd(0x2c7)],saveChatsToStorage()),closeContextMenu();}function menuSelectChat(){const _0x10a728=_0x3fc743;if(!selectedMenuChatId)return;isMultiSelectMode=!![],selectedForDelete[_0x10a728(0x1c8)](),selectedForDelete[_0x10a728(0x2bc)](selectedMenuChatId),closeContextMenu(),updateMultiSelectUI(),renderHistory();}function updateMultiSelectUI(){const _0x5e3752=_0x3fc743,_0x2ed42f=document[_0x5e3752(0x2c8)](_0x5e3752(0x23b));isMultiSelectMode?(_0x2ed42f['classList'][_0x5e3752(0x290)](_0x5e3752(0x241)),document['getElementById'](_0x5e3752(0x1f0))['textContent']='ជ្រើសរើស\x20'+selectedForDelete[_0x5e3752(0x19d)]):_0x2ed42f[_0x5e3752(0x2d3)][_0x5e3752(0x2bc)](_0x5e3752(0x241));}function cancelMultiSelect(){const _0x3cda66=_0x3fc743;isMultiSelectMode=![],selectedForDelete[_0x3cda66(0x1c8)](),updateMultiSelectUI(),renderHistory();}function menuDeleteChat(){const _0x1f57df=_0x3fc743;if(!selectedMenuChatId)return;modalTargetId=selectedMenuChatId,deleteMode=_0x1f57df(0x2af),document[_0x1f57df(0x2c8)]('delete-modal-title')['textContent']=_0x1f57df(0x1c5),document[_0x1f57df(0x2c8)](_0x1f57df(0x26e))[_0x1f57df(0x2b2)]=_0x1f57df(0x2ac),document[_0x1f57df(0x2c8)](_0x1f57df(0x1ba))[_0x1f57df(0x2d3)]['remove']('hidden'),closeContextMenu();}function deleteSelectedChats(){const _0xa9d1d9=_0x3fc743;if(selectedForDelete[_0xa9d1d9(0x19d)]===0x0){cancelMultiSelect();return;}deleteMode=_0xa9d1d9(0x258),document[_0xa9d1d9(0x2c8)](_0xa9d1d9(0x23d))['textContent']=_0xa9d1d9(0x287),document[_0xa9d1d9(0x2c8)](_0xa9d1d9(0x26e))[_0xa9d1d9(0x2b2)]='តើអ្នកពិតជាចង់លុបការជជែកចំនួន\x20'+selectedForDelete[_0xa9d1d9(0x19d)]+_0xa9d1d9(0x24e),document[_0xa9d1d9(0x2c8)]('delete-modal')[_0xa9d1d9(0x2d3)]['remove']('hidden');}function executeDelete(){const _0x3a59ef=_0x3fc743;if(deleteMode==='single'){chats=chats['filter'](_0x2fd42b=>_0x2fd42b['id']!==modalTargetId);if(activeChatId===modalTargetId)createNewChat();}else{if(deleteMode==='multi'){chats=chats[_0x3a59ef(0x1dd)](_0x1b5021=>!selectedForDelete[_0x3a59ef(0x2a7)](_0x1b5021['id']));if(selectedForDelete[_0x3a59ef(0x2a7)](activeChatId))createNewChat();cancelMultiSelect();}}saveChatsToStorage(),closeModal(_0x3a59ef(0x1ba)),modalTargetId=null;}function closeModal(_0x361bd1){const _0x90f354=_0x3fc743;document[_0x90f354(0x2c8)](_0x361bd1)[_0x90f354(0x2d3)]['add']('hidden');}function toggleMute(){const _0x5ee83c=_0x3fc743;isMuted=!isMuted;const _0x1990a3=document['getElementById'](_0x5ee83c(0x2be));_0x1990a3[_0x5ee83c(0x26b)]=isMuted?_0x5ee83c(0x213):_0x5ee83c(0x28e);}function scrollToBottom(){const _0x5d1fe2=_0x3fc743,_0x5cb08c=document['getElementById'](_0x5d1fe2(0x233));_0x5cb08c[_0x5d1fe2(0x1b8)]=_0x5cb08c[_0x5d1fe2(0x25f)];}function escapeHtml(_0x36ede8){const _0x2c8cf4=_0x3fc743;return _0x36ede8[_0x2c8cf4(0x20f)](/&/g,_0x2c8cf4(0x29d))[_0x2c8cf4(0x20f)](/</g,_0x2c8cf4(0x217))[_0x2c8cf4(0x20f)](/>/g,'&gt;')[_0x2c8cf4(0x20f)](/"/g,_0x2c8cf4(0x21b))[_0x2c8cf4(0x20f)](/'/g,_0x2c8cf4(0x27b));}'serviceWorker'in navigator&&window[_0x3fc743(0x27e)]('load',()=>{const _0x19b629=_0x3fc743;navigator[_0x19b629(0x28c)][_0x19b629(0x1c7)](_0x19b629(0x2a3))['then'](_0x449b16=>console[_0x19b629(0x270)]('✅\x20SW\x20registered'))[_0x19b629(0x1a7)](_0x50cb84=>console[_0x19b629(0x2ca)](_0x19b629(0x190),_0x50cb84));});
-  </script>
-  <!-- Firebase SDK -->
-<script type="module">
-  import { initializeApp } from "firebase/app";
-  import { getAnalytics } from "firebase/analytics";
+    let currentUser = null;
 
-  // យកកូដ firebaseConfig ដែលអ្នកទើបចម្លងពី Firebase មកដាក់ទីនេះ
-  const firebaseConfig = {
-    apiKey: "AIzaSyDhpsHWWqqzE6F70ooHb_AaN02UtXzcvc0",
-    authDomain: "cheung-prey-ai.firebaseapp.com",
-    projectId: "cheung-prey-ai",
-    storageBucket: "cheung-prey-ai.firebasestorage.app",
-    messagingSenderId: "704161714255",
-    appId: "1:704161714255:web:c1c530460266868b019a3a"
-    
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const provider = new GoogleAuthProvider();
-
-  // បង្កើត Function សម្រាប់ឱ្យប៊ូតុងហៅ
-  window.loginWithGoogle = async () => {
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
+    async function initAIOnLoad() {
+      const loadingScreen = document.getElementById('ai-loading-screen');
+      const authScreen = document.getElementById('auth-screen');
       
-              // យកឈ្មោះ និងអ៊ីមែលពិតពី Google មកបង្ហាញ
-        const userData = { name: user.displayName, email: user.email };
-        localStorage.setItem('cp_currentUser', JSON.stringify(userData));
+      if (localStorage.getItem('qwen_model_ready') === 'true') {
+        loadingScreen.style.display = 'none';
+        const savedUser = localStorage.getItem('cp_currentUser');
+        if (savedUser) { currentUser = JSON.parse(savedUser); showMainApp(); }
+        else { authScreen.classList.remove('hidden'); }
+        return;
+      }
+
+      try {
+        const { CreateMLCEngine } = await import('https://cdn.jsdelivr.net/npm/@mlc-ai/web-llm@0.2.86/+esm');
         
-        // ប្រើការ Refresh ទំព័រជំនួសវិញ ព្រោះកូដដើមត្រូវ Obfuscate
-        window.location.reload(); 
-    } catch (error) {
-      alert("ការចូលបរាជ័យ: " + error.message);
+        const initProgressCallback = (progress) => {
+          const percent = Math.round(progress.progress * 100);
+          document.getElementById('ai-progress-bar').style.width = percent + '%';
+          document.getElementById('ai-percent-text').innerText = percent + '%';
+          
+          if (progress.text.includes('Fetching')) {
+             document.getElementById('ai-status-text').innerText = 'កំពុងទាញយកទិន្នន័យ...';
+          } else if (progress.text.includes('Loading')) {
+             document.getElementById('ai-status-text').innerText = 'កំពុងដំឡើងទៅកាន់ម៉ាស៊ីន...';
+          } else {
+             document.getElementById('ai-status-text').innerText = 'កំពុងរៀបចំ...';
+          }
+        };
+
+        window.aiEngine = await CreateMLCEngine("Qwen2.5-3B-Instruct-q4f16_1-MLC", {
+            initProgressCallback: initProgressCallback
+        });
+        
+        localStorage.setItem('qwen_model_ready', 'true');
+        document.getElementById('ai-percent-text').innerText = '100%';
+        document.getElementById('ai-status-text').innerText = '✅ រួចរាល់!';
+        
+        setTimeout(() => {
+          loadingScreen.style.opacity = '0';
+          setTimeout(() => {
+            loadingScreen.style.display = 'none';
+            const savedUser = localStorage.getItem('cp_currentUser');
+            if (savedUser) { currentUser = JSON.parse(savedUser); showMainApp(); }
+            else { authScreen.classList.remove('hidden'); }
+          }, 700);
+        }, 800);
+
+      } catch (error) {
+        document.getElementById('ai-status-text').innerText = '❌ បរាជ័យ: ' + error.message;
+        document.getElementById('ai-status-text').classList.add('text-red-500');
+        alert('ម៉ាស៊ីនរបស់អ្នកមិនអាចទាញយក AI បានទេ។ សូមប្រើ Chrome ឬ Edge ជំនាន់ថ្មី ហើយប្រាកដថាមាន WebGPU។');
+      }
     }
-  };
-</script>
+
+    window.addEventListener('load', () => {
+      initAIOnLoad();
+    });
+
+    function switchAuthTab(tab) {
+      const indicator = document.getElementById('auth-tab-indicator');
+      const tabLogin = document.getElementById('tab-btn-login');
+      const tabSignup = document.getElementById('tab-btn-signup');
+      const loginForm = document.getElementById('login-form');
+      const signupForm = document.getElementById('signup-form');
+
+      if (tab === 'login') {
+        indicator.style.transform = 'translateX(0)';
+        tabLogin.classList.add('text-white');
+        tabLogin.classList.remove('text-gray-400');
+        tabSignup.classList.remove('text-white');
+        tabSignup.classList.add('text-gray-400');
+        loginForm.classList.remove('hidden');
+        signupForm.classList.add('hidden');
+      } else {
+        indicator.style.transform = 'translateX(100%)';
+        tabSignup.classList.add('text-white');
+        tabSignup.classList.remove('text-gray-400');
+        tabLogin.classList.remove('text-white');
+        tabLogin.classList.add('text-gray-400');
+        signupForm.classList.remove('hidden');
+        loginForm.classList.add('hidden');
+      }
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value.trim();
+      const password = document.getElementById('login-password').value;
+
+      const users = JSON.parse(localStorage.getItem('cp_users') || '[]');
+      const user = users.find(u => u.email === email && u.password === password);
+
+      if (user) {
+        currentUser = { name: user.name, email: user.email };
+        localStorage.setItem('cp_currentUser', JSON.stringify(currentUser));
+        showMainApp();
+      } else {
+        alert('អ៊ីមែល ឬលេខសម្ងាត់មិនត្រឹមត្រូវ! សូមព្យាយាមម្តងទៀត។');
+      }
+    }
+
+    function handleSignup(e) {
+      e.preventDefault();
+      const name = document.getElementById('signup-name').value.trim();
+      const email = document.getElementById('signup-email').value.trim();
+      const password = document.getElementById('signup-password').value;
+
+      let users = JSON.parse(localStorage.getItem('cp_users') || '[]');
+      
+      if (users.find(u => u.email === email)) {
+        alert('អ៊ីមែលនេះត្រូវបានប្រើប្រាស់រួចហើយ!');
+        return;
+      }
+
+      users.push({ name, email, password });
+      localStorage.setItem('cp_users', JSON.stringify(users));
+      
+      currentUser = { name, email };
+      localStorage.setItem('cp_currentUser', JSON.stringify(currentUser));
+      showMainApp();
+    }
+
+    function handleLogout() {
+      if(confirm('តើអ្នកពិតជាចង់ចាកចេញមែនទេ?')) {
+        localStorage.removeItem('cp_currentUser');
+        currentUser = null;
+        closeUserMenu();
+        showAuthScreen();
+      }
+    }
+
+    function showAuthScreen() {
+      document.getElementById('main-app').classList.add('hidden', 'opacity-0');
+      document.getElementById('auth-screen').classList.remove('hidden');
+      document.getElementById('auth-screen').classList.add('opacity-100');
+    }
+
+    function showMainApp() {
+      document.getElementById('auth-screen').classList.add('hidden', 'opacity-0');
+      document.getElementById('main-app').classList.remove('hidden');
+      
+      setTimeout(() => {
+        document.getElementById('main-app').classList.remove('opacity-0');
+      }, 50);
+
+      document.getElementById('display-username').innerText = currentUser.name;
+      document.getElementById('display-email').innerText = currentUser.email;
+      document.getElementById('user-avatar-letter').innerText = currentUser.name.charAt(0).toUpperCase();
+      
+      document.getElementById('prof-name').value = currentUser.name;
+      document.getElementById('prof-email').value = currentUser.email;
+      document.getElementById('prof-google').value = currentUser.email;
+
+      initParticles(); 
+      animateParticles();
+      loadChatsFromStorage();
+      renderHistory();
+    }
+
+    // ==========================================
+    // ១. FILE UPLOAD LOGIC
+    // ==========================================
+    let selectedFiles = [];
+    const MAX_FILES = 50;
+    const MAX_SIZE = 100 * 1024 * 1024; 
+
+    function handleFileSelect(event) {
+      const files = Array.from(event.target.files);
+      
+      if (selectedFiles.length + files.length > MAX_FILES) {
+        alert(`អ្នកអាចជ្រើសរើសបានត្រឹមតែ ${MAX_FILES} ឯកសារប៉ុណ្ណោះ!`);
+        event.target.value = ''; 
+        return;
+      }
+
+      for (let file of files) {
+        if (file.size > MAX_SIZE) {
+          alert(`ឯកសារ "${file.name}" ធំពេក! អតិបរមាគឺ 100MB។`);
+          continue;
+        }
+        selectedFiles.push(file);
+      }
+      
+      event.target.value = ''; 
+      renderSelectedFiles();
+    }
+
+    function renderSelectedFiles() {
+      const container = document.getElementById('file-preview-container');
+      container.innerHTML = '';
+      
+      if (selectedFiles.length === 0) {
+        container.classList.add('hidden');
+        container.classList.remove('flex');
+        return;
+      }
+      container.classList.remove('hidden');
+      container.classList.add('flex');
+
+      selectedFiles.forEach((file, index) => {
+        const chip = document.createElement('div');
+        chip.className = "flex items-center gap-1.5 bg-white/90 dark:bg-gray-800 px-3 py-1.5 rounded-xl text-xs text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-600 shadow-sm";
+        
+        let icon = `<svg class="w-3.5 h-3.5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>`;
+        if (file.type.startsWith('image/')) {
+           icon = `<svg class="w-3.5 h-3.5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>`;
+        }
+
+        chip.innerHTML = `
+            ${icon}
+            <span class="truncate max-w-[100px] sm:max-w-[150px]">${file.name}</span>
+            <button onclick="removeFile(${index})" class="text-red-500 hover:text-red-700 ml-1">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        `;
+        container.appendChild(chip);
+      });
+    }
+
+    function removeFile(index) {
+      selectedFiles.splice(index, 1);
+      renderSelectedFiles();
+    }
+
+    // ==========================================
+    // ២. SPEECH TO TEXT LOGIC
+    // ==========================================
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    let recognition = null;
+    let isListening = false;
+    let textBeforeRecording = ''; 
+    let sessionText = ''; 
+
+    if (SpeechRecognition) {
+      recognition = new SpeechRecognition();
+      recognition.continuous = true; 
+      recognition.interimResults = true; 
+
+      recognition.onstart = function() {
+        isListening = true;
+        const micIcon = document.getElementById('mic-icon');
+        micIcon.classList.add('recording-pulse');
+        document.getElementById('user-input').placeholder = currentLang === 'km' ? "កំពុងស្តាប់... (ចុចមីក្រូម្តងទៀតដើម្បីឈប់)" : "Listening... (Click mic again to stop)";
+        autoResize(document.getElementById('user-input'));
+      };
+
+      recognition.onresult = function(event) {
+        let interimTranscript = '';
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          if (event.results[i].isFinal) {
+            sessionText += event.results[i][0].transcript + ' ';
+          } else {
+            interimTranscript += event.results[i][0].transcript;
+          }
+        }
+        const inputField = document.getElementById('user-input');
+        inputField.value = textBeforeRecording + sessionText + interimTranscript;
+        autoResize(inputField);
+      };
+
+      recognition.onerror = function(event) {
+        console.error("Speech recognition error", event.error);
+        if (event.error === 'not-allowed') {
+          alert("សូមអនុញ្ញាតឲ្យប្រើមីក្រូហ្វូន (Allow Microphone) ដើម្បីប្រើមុខងារនេះ។");
+          isListening = false;
+          stopListeningUI();
+        }
+      };
+
+      recognition.onend = function() {
+        if (isListening) {
+          try { recognition.start(); } catch (e) { isListening = false; stopListeningUI(); }
+        } else {
+          stopListeningUI();
+        }
+      };
+    }
+
+    function stopListeningUI() {
+      isListening = false;
+      const micIcon = document.getElementById('mic-icon');
+      micIcon.classList.remove('recording-pulse');
+      document.getElementById('user-input').placeholder = currentLang === 'km' ? "ផ្ញើសារ ឬ សង្កត់ដើម្បីនិយាយ" : "Send a message or click to speak";
+      autoResize(document.getElementById('user-input'));
+    }
+
+    function handleSendOrMic() {
+      if (isListening) {
+        isListening = false;
+        if (recognition) recognition.stop();
+        stopListeningUI();
+        return;
+      }
+
+      const input = document.getElementById('user-input');
+      const text = input.value.trim();
+
+      if (text || selectedFiles.length > 0) {
+        sendMessage();
+      } else {
+        if (!SpeechRecognition) {
+          alert("Browser របស់អ្នកមិនគាំទ្រការបំប្លែងសំឡេងទេ។ សូមប្រើ Chrome ឬ Edge។");
+          return;
+        }
+        textBeforeRecording = input.value;
+        sessionText = '';
+        recognition.lang = currentLang === 'km' ? 'km-KH' : 'en-US';
+        try { recognition.start(); } catch (e) { console.error(e); }
+      }
+    }
+
+    // ==========================================
+    // ៣. TRANSLATIONS & SETTINGS STATE
+    // ==========================================
+    const translations = {
+      km: {
+        settings: 'ការកំណត់', general: 'ទូទៅ (General)', profile: 'គណនី (Profile)',
+        theme_title: 'ពណ៌ផ្ទៃខាងក្រោយ (Theme)', theme_desc: 'ប្តូររវាង Light និង Dark Mode',
+        lang_title: 'ភាសា (Language)', profile_info: 'ព័ត៌មានគណនី',
+        dev_manage: 'គ្រប់គ្រងឧបករណ៍', danger_zone: 'តំបន់គ្រោះថ្នាក់',
+        logout_all: 'ចាកចេញពីគ្រប់ឧបករណ៍', delete_acc: 'លុបគណនីចោល',
+        welcome: 'ត្រៀមខ្លួននៅពេលណាក៏បាន', think: 'គិត', search: 'ស្វែងរក'
+      },
+      en: {
+        settings: 'Settings', general: 'General', profile: 'Profile',
+        theme_title: 'Theme', theme_desc: 'Toggle between Light and Dark Mode',
+        lang_title: 'Language', profile_info: 'Profile Information',
+        dev_manage: 'Device Management', danger_zone: 'Danger Zone',
+        logout_all: 'Log out of all devices', delete_acc: 'Delete account',
+        welcome: 'Ready when you are', think: 'Think', search: 'Search'
+      }
+    };
+
+    let isDarkMode = localStorage.getItem('app_theme') === 'dark';
+    let currentLang = localStorage.getItem('app_lang') || 'km';
+
+    function applyTheme() {
+      if (isDarkMode) {
+        document.documentElement.classList.add('dark');
+        document.getElementById('theme-toggle').checked = true;
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.getElementById('theme-toggle').checked = false;
+      }
+    }
+
+    function toggleTheme() {
+      isDarkMode = !isDarkMode;
+      localStorage.setItem('app_theme', isDarkMode ? 'dark' : 'light');
+      applyTheme();
+    }
+
+    function changeLanguage(lang) {
+      currentLang = lang;
+      localStorage.setItem('app_lang', lang);
+      document.getElementById('language-select').value = lang;
+      updateUILanguage();
+      
+      if (!isListening) {
+        document.getElementById('user-input').placeholder = lang === 'km' ? "ផ្ញើសារ ឬ សង្កត់ដើម្បីនិយាយ" : "Send a message or click to speak";
+      }
+    }
+
+    function updateUILanguage() {
+      document.querySelectorAll('[data-lang]').forEach(el => {
+        const key = el.getAttribute('data-lang');
+        if (translations[currentLang][key]) {
+          el.innerText = translations[currentLang][key];
+        }
+      });
+      document.getElementById('welcome-text').innerText = translations[currentLang]['welcome'];
+    }
+
+    function openSettings() {
+      document.getElementById('settings-modal').classList.remove('hidden');
+      switchSettingsTab('general');
+    }
+
+    function closeSettings() {
+      document.getElementById('settings-modal').classList.add('hidden');
+    }
+
+    function switchSettingsTab(tab) {
+      const tabGen = document.getElementById('tab-general');
+      const tabProf = document.getElementById('tab-profile');
+      const viewGen = document.getElementById('view-general');
+      const viewProf = document.getElementById('view-profile');
+
+      if (tab === 'general') {
+        tabGen.className = "settings-tab flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 transition-colors whitespace-nowrap";
+        tabProf.className = "settings-tab flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors whitespace-nowrap";
+        viewGen.classList.remove('hidden');
+        viewProf.classList.add('hidden');
+      } else {
+        tabProf.className = "settings-tab flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400 transition-colors whitespace-nowrap";
+        tabGen.className = "settings-tab flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors whitespace-nowrap";
+        viewProf.classList.remove('hidden');
+        viewGen.classList.add('hidden');
+      }
+    }
+
+    function saveProfile() {
+      const name = document.getElementById('prof-name').value;
+      const email = document.getElementById('prof-email').value;
+      const phone = document.getElementById('prof-phone').value;
+      
+      currentUser.name = name;
+      currentUser.email = email;
+      localStorage.setItem('cp_currentUser', JSON.stringify(currentUser));
+      
+      let users = JSON.parse(localStorage.getItem('cp_users') || '[]');
+      const idx = users.findIndex(u => u.email === currentUser.email);
+      if(idx > -1) {
+         users[idx].name = name;
+         localStorage.setItem('cp_users', JSON.stringify(users));
+      }
+
+      document.getElementById('display-username').innerText = name;
+      document.getElementById('display-email').innerText = email;
+      document.getElementById('user-avatar-letter').innerText = name.charAt(0).toUpperCase();
+      
+      alert('បានរក្សាទុកព័ត៌មានដោយជោគជ័យ!');
+    }
+
+    function logoutAllDevices() {
+      if(confirm('តើអ្នកពិតជាចង់ចាកចេញពីគ្រប់ឧបករណ៍មែនទេ?')) {
+        alert('បានចាកចេញពីគ្រប់ឧបករណ៍រួចរាល់!');
+        handleLogout();
+      }
+    }
+
+    function deleteAccount() {
+      if(confirm('ការព្រមាន! ការលុបគណនីនឹងលុបប្រវត្តិជជែក និងទិន្នន័យទាំងអស់របស់អ្នកជារៀងរហូត។ តើអ្នកពិតជាចង់ធ្វើបែបនេះមែនទេ?')) {
+        localStorage.clear();
+        alert('គណនីត្រូវបានលុបចោល!');
+        window.location.reload();
+      }
+    }
+
+    // ==========================================
+    // ៤. ANIMATION BACKGROUND 
+    // ==========================================
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let particlesArray;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    window.addEventListener('resize', function() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      initParticles();
+    });
+
+    class Particle {
+      constructor(x, y, directionX, directionY, size, color) {
+        this.x = x; this.y = y; this.directionX = directionX; this.directionY = directionY; this.size = size; this.color = color;
+      }
+      draw() {
+        ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false); ctx.fillStyle = this.color; ctx.fill();
+      }
+      update() {
+        if (this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
+        if (this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
+        this.x += this.directionX; this.y += this.directionY; this.draw();
+      }
+    }
+
+    function initParticles() {
+      particlesArray = [];
+      let numberOfParticles = (canvas.height * canvas.width) / 15000; 
+      for (let i = 0; i < numberOfParticles; i++) {
+        let size = (Math.random() * 1.5) + 0.5;
+        let x = (Math.random() * ((innerWidth - size * 2) - (size * 2)) + size * 2);
+        let y = (Math.random() * ((innerHeight - size * 2) - (size * 2)) + size * 2);
+        let directionX = (Math.random() * 0.4) - 0.2;
+        let directionY = (Math.random() * 0.4) - 0.2;
+        let color = isDarkMode ? 'rgba(147, 197, 253, 0.4)' : 'rgba(79, 70, 229, 0.4)';
+        particlesArray.push(new Particle(x, y, directionX, directionY, size, color));
+      }
+    }
+
+    function connectParticles() {
+      for (let a = 0; a < particlesArray.length; a++) {
+        for (let b = a; b < particlesArray.length; b++) {
+          let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x)) 
+                       + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
+          
+          if (distance < (canvas.width / 20) * (canvas.height / 20)) {
+            let opacityValue = 1 - (distance / 25000); 
+            ctx.strokeStyle = isDarkMode ? 'rgba(147, 197, 253,' + (opacityValue * 0.3) + ')' : 'rgba(99, 102, 241,' + (opacityValue * 0.4) + ')';
+            ctx.lineWidth = 0.6;
+            ctx.beginPath(); ctx.moveTo(particlesArray[a].x, particlesArray[a].y); ctx.lineTo(particlesArray[b].x, particlesArray[b].y); ctx.stroke();
+          }
+        }
+      }
+    }
+
+    function animateParticles() {
+      requestAnimationFrame(animateParticles);
+      ctx.clearRect(0, 0, innerWidth, innerHeight);
+      for (let i = 0; i < particlesArray.length; i++) { particlesArray[i].update(); }
+      connectParticles();
+    }
+
+    // ==========================================
+    // ៥. APPLICATION LOGIC
+    // ==========================================
+    let activeChatId = null;
+    let selectedMenuChatId = null;
+    let chats = [];
+    let isThinkActive = true; 
+    let isSearchActive = true;
+    let isMuted = true;
+    let isMultiSelectMode = false;
+    let selectedForDelete = new Set();
+    let modalTargetId = null;
+    let deleteMode = ''; 
+
+    applyTheme();
+    updateUILanguage();
+    initParticles(); 
+    animateParticles();
+
+    document.addEventListener('click', function(e) {
+      const historyMenu = document.getElementById('history-context-menu');
+      if (!historyMenu.contains(e.target) && !e.target.closest('.menu-dots-btn')) closeContextMenu();
+      
+      const userMenu = document.getElementById('user-profile-menu');
+      const userBtn = document.getElementById('user-menu-btn');
+      if (userMenu && !userMenu.classList.contains('hidden')) {
+          if (!userMenu.contains(e.target) && !userBtn.contains(e.target)) closeUserMenu();
+      }
+    });
+
+    function toggleUserMenu(e) {
+      e.stopPropagation();
+      const menu = document.getElementById('user-profile-menu');
+      if (menu.classList.contains('hidden')) {
+        menu.classList.remove('hidden');
+        setTimeout(() => { menu.classList.remove('opacity-0', 'scale-95'); menu.classList.add('opacity-100', 'scale-100'); }, 10);
+      } else { closeUserMenu(); }
+    }
+
+    function closeUserMenu() {
+      const menu = document.getElementById('user-profile-menu');
+      menu.classList.remove('opacity-100', 'scale-100');
+      menu.classList.add('opacity-0', 'scale-95');
+      setTimeout(() => { menu.classList.add('hidden'); }, 200);
+    }
+
+    function loadChatsFromStorage() {
+      const stored = localStorage.getItem('cheung_prey_ai_chats');
+      chats = stored ? JSON.parse(stored) : [];
+    }
+
+    function saveChatsToStorage() {
+      localStorage.setItem('cheung_prey_ai_chats', JSON.stringify(chats));
+      renderHistory();
+    }
+
+    function toggleSidebar(open) {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('sidebar-overlay');
+      if (open) {
+        renderHistory();
+        sidebar.classList.remove('-translate-x-full');
+        overlay.classList.remove('opacity-0', 'pointer-events-none');
+        overlay.classList.add('opacity-100');
+      } else {
+        sidebar.classList.add('-translate-x-full');
+        overlay.classList.add('opacity-0', 'pointer-events-none');
+        overlay.classList.remove('opacity-100');
+        closeContextMenu(); closeUserMenu();
+      }
+    }
+
+    function toggleMode(mode) {
+      if (mode === 'think') {
+        isThinkActive = !isThinkActive;
+        const btn = document.getElementById('btn-think');
+        if (isThinkActive) {
+          btn.className = "flex items-center space-x-1.5 px-3.5 py-1.5 rounded-full text-sm font-medium bg-indigo-600 text-white border border-indigo-600 shadow-sm transition-all duration-200";
+        } else {
+          btn.className = "flex items-center space-x-1.5 px-3.5 py-1.5 rounded-full text-sm font-medium bg-indigo-50/80 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-100 dark:hover:bg-indigo-900 border border-indigo-100 dark:border-indigo-800 transition-all duration-200";
+        }
+      } else if (mode === 'search') {
+        isSearchActive = !isSearchActive;
+        const btn = document.getElementById('btn-search');
+        if (isSearchActive) {
+          btn.className = "flex items-center space-x-1.5 px-3.5 py-1.5 rounded-full text-sm font-medium bg-blue-600 text-white border border-blue-600 shadow-sm transition-all duration-200";
+        } else {
+          btn.className = "flex items-center space-x-1.5 px-3.5 py-1.5 rounded-full text-sm font-medium bg-blue-50/80 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900 border border-blue-100 dark:border-indigo-800 transition-all duration-200";
+        }
+      }
+    }
+
+    function autoResize(textarea) {
+      textarea.style.height = 'auto';
+      textarea.style.height = Math.min(textarea.scrollHeight, 128) + 'px';
+      const micIcon = document.getElementById('mic-icon');
+      const sendIcon = document.getElementById('send-icon');
+      
+      if (isListening) {
+        micIcon.classList.remove('hidden');
+        sendIcon.classList.add('hidden');
+      } else {
+        if (textarea.value.trim().length > 0 || selectedFiles.length > 0) {
+          micIcon.classList.add('hidden'); 
+          sendIcon.classList.remove('hidden');
+        } else {
+          micIcon.classList.remove('hidden'); 
+          sendIcon.classList.add('hidden');
+        }
+      }
+    }
+
+    function handleKeyDown(event) {
+      if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault(); sendMessage();
+      }
+    }
+
+    function createNewChat() {
+      activeChatId = null;
+      document.getElementById('messages-list').innerHTML = '';
+      document.getElementById('messages-list').classList.add('hidden');
+      document.getElementById('welcome-screen').classList.remove('hidden');
+      cancelMultiSelect(); toggleSidebar(false);
+    }
+
+    function sendMessage() {
+      const input = document.getElementById('user-input');
+      const text = input.value.trim();
+      
+      if (!text && selectedFiles.length === 0) return;
+
+      const now = new Date().getTime();
+
+      if (!activeChatId) {
+        let title = text ? (text.length > 25 ? text.substring(0, 25) + '...' : text) : `Uploaded ${selectedFiles.length} files`;
+        activeChatId = 'chat_' + now;
+        chats.unshift({
+          id: activeChatId, title: title,
+          timestamp: now, messages: [], pinned: false
+        });
+      }
+
+      const currentChat = chats.find(c => c.id === activeChatId);
+      const attachments = selectedFiles.map(f => ({ name: f.name, type: f.type }));
+      const userMsg = { role: 'user', content: text, attachments: attachments, timestamp: now };
+      currentChat.messages.push(userMsg);
+      saveChatsToStorage();
+
+      showChatScreen(); renderSingleMessage(userMsg);
+
+      input.value = ''; 
+      selectedFiles = []; 
+      renderSelectedFiles(); 
+      autoResize(input); 
+      scrollToBottom();
+      
+      textBeforeRecording = '';
+      sessionText = '';
+
+      setTimeout(() => generateAIReply(text || "ខ្ញុំបានផ្ញើឯកសារ", currentChat), 400);
+    }
+
+    async function generateAIReply(userQuery, currentChat) {
+      const msgList = document.getElementById('messages-list');
+      const aiContainer = document.createElement('div');
+      aiContainer.className = "flex items-start space-x-3 mb-5";
+
+      const avatar = `<div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center shrink-0 shadow-sm mt-0.5 text-white">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"></path></svg>
+      </div>`;
+
+      const thinkBadgeHtml = isThinkActive ? `
+        <div class="mb-3 bg-indigo-50/90 dark:bg-indigo-900/40 border border-indigo-100 dark:border-indigo-800 rounded-xl p-3 text-sm text-indigo-900 dark:text-indigo-200 backdrop-blur-sm">
+          <div class="flex items-center justify-between font-medium text-indigo-700 dark:text-indigo-300 mb-1.5 cursor-pointer" onclick="this.nextElementSibling.classList.toggle('hidden')">
+            <span>🧠 ដំណើរការគិត...</span>
+            <span class="text-[11px] text-indigo-400">លាក់/បង្ហាញ</span>
+          </div>
+          <div class="text-xs text-indigo-600/90 dark:text-indigo-300/90 leading-relaxed font-mono pt-1 border-t border-indigo-100/60 dark:border-indigo-800/60">
+            1. វិភាគសំណួរ៖ "${escapeHtml(userQuery)}"<br>2. ស្វែងរកទិន្នន័យ...
+          </div>
+        </div>` : '';
+
+      const searchBadgeHtml = isSearchActive ? `
+        <div class="text-xs text-blue-600 dark:text-blue-400 font-medium bg-blue-50/90 dark:bg-blue-900/40 px-2.5 py-1 rounded-md mb-3 inline-block border border-blue-100 dark:border-blue-800">
+          🌐 បានស្វែងរកព័ត៌មានបច្ចុប្បន្នលើបណ្តាញ Web
+        </div>` : '';
+
+      aiContainer.innerHTML = `
+        ${avatar}
+        <div class="bg-white/90 dark:bg-gray-800 text-gray-800 dark:text-gray-200 px-5 py-3.5 chat-bubble-ai max-w-[85%] md:max-w-[75%] text-base leading-relaxed border border-white/60 dark:border-gray-700 shadow-sm">
+          ${thinkBadgeHtml}${searchBadgeHtml}
+          <div class="ai-text space-y-1">កំពុងគិត...</div>
+        </div>`;
+      msgList.appendChild(aiContainer);
+
+      const textDiv = aiContainer.querySelector('.ai-text');
+
+      if (!window.aiEngine) {
+        textDiv.innerHTML = "⚠️ ម៉ាស៊ីន AI មិនទាន់រួចរាល់ទេ។ សូម Refresh ទំព័រម្តងទៀត។";
+        return;
+      }
+
+      try {
+        const chunks = await window.aiEngine.chat.completions.create({
+          messages: [
+            { role: "system", content: "You are Cheung Prey AI, a helpful educational assistant. Answer in Khmer if the user asks in Khmer." },
+            { role: "user", content: userQuery }
+          ],
+          temperature: 0.7,
+          stream: true, 
+        });
+
+        let fullResponse = "";
+        textDiv.innerHTML = ''; 
+
+        for await (const chunk of chunks) {
+          const content = chunk.choices[0]?.delta?.content || "";
+          fullResponse += content;
+          textDiv.innerHTML = fullResponse.replace(/\n/g, '<br>');
+          scrollToBottom();
+        }
+
+        currentChat.messages.push({ role: 'ai', content: fullResponse, timestamp: new Date().getTime() });
+        saveChatsToStorage();
+
+      } catch (error) {
+        textDiv.innerHTML = `❌ មានបញ្ហា: ${error.message}`;
+      }
+    }
+
+    function renderSingleMessage(msg) {
+      const msgList = document.getElementById('messages-list');
+      if (msg.role === 'user') {
+        const userBubble = document.createElement('div');
+        userBubble.className = "flex justify-end mb-4";
+        
+        let attachmentsHtml = '';
+        if (msg.attachments && msg.attachments.length > 0) {
+            attachmentsHtml = `<div class="mt-2 space-y-1.5">`;
+            msg.attachments.forEach(file => {
+                const isImg = file.type && file.type.startsWith('image/');
+                const icon = isImg 
+                    ? `<svg class="w-4 h-4 text-green-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>`
+                    : `<svg class="w-4 h-4 text-blue-300 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>`;
+                
+                attachmentsHtml += `
+                    <div class="flex items-center gap-2 bg-blue-700/50 rounded-lg p-2 text-sm border border-blue-500/30">
+                        ${icon}
+                        <span class="truncate max-w-[150px] md:max-w-[200px]">${escapeHtml(file.name)}</span>
+                    </div>
+                `;
+            });
+            attachmentsHtml += `</div>`;
+        }
+
+        userBubble.innerHTML = `
+            <div class="bg-blue-600 text-white px-5 py-3 chat-bubble-user max-w-[82%] md:max-w-[70%] text-base shadow-md leading-relaxed">
+                ${msg.content ? `<div>${escapeHtml(msg.content)}</div>` : ''}
+                ${attachmentsHtml}
+            </div>`;
+        msgList.appendChild(userBubble);
+      } else {
+        const aiContainer = document.createElement('div');
+        aiContainer.className = "flex items-start space-x-3 mb-5";
+        aiContainer.innerHTML = `
+          <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center shrink-0 shadow-sm mt-0.5 text-white">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"></path><path stroke-linecap="round" stroke-linejoin="round" d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"></path></svg>
+          </div>
+          <div class="bg-white/90 dark:bg-gray-800 text-gray-800 dark:text-gray-200 px-5 py-3.5 chat-bubble-ai max-w-[85%] md:max-w-[75%] text-base leading-relaxed border border-white/60 dark:border-gray-700 shadow-sm">
+            ${msg.content}
+          </div>`;
+        msgList.appendChild(aiContainer);
+      }
+      scrollToBottom();
+    }
+
+    function showChatScreen() {
+      document.getElementById('welcome-screen').classList.add('hidden');
+      document.getElementById('messages-list').classList.remove('hidden');
+    }
+
+    function loadChatThread(chatId) {
+      activeChatId = chatId;
+      const chat = chats.find(c => c.id === chatId);
+      if (!chat) return;
+      toggleSidebar(false); showChatScreen();
+      const msgList = document.getElementById('messages-list');
+      msgList.innerHTML = '';
+      chat.messages.forEach(msg => renderSingleMessage(msg));
+      renderHistory();
+    }
+
+    function renderHistory() {
+      const container = document.getElementById('history-container');
+      const emptyMsg = document.getElementById('empty-history-msg');
+      const searchQuery = (document.getElementById('history-search').value || '').toLowerCase();
+      
+      container.innerHTML = '';
+      const sortedChats = [...chats].sort((a, b) => {
+        if (a.pinned && !b.pinned) return -1;
+        if (!a.pinned && b.pinned) return 1;
+        return b.timestamp - a.timestamp;
+      });
+
+      const filteredChats = sortedChats.filter(c => c.title.toLowerCase().includes(searchQuery));
+
+      if (filteredChats.length === 0) { emptyMsg.classList.remove('hidden'); return; } 
+      else { emptyMsg.classList.add('hidden'); }
+
+      const pinned = [], today = [], yesterday = [], older = [];
+      const now = new Date();
+      const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+      const startOfYesterday = startOfToday - (24 * 60 * 60 * 1000);
+
+      filteredChats.forEach(c => {
+        if (c.pinned) pinned.push(c);
+        else if (c.timestamp >= startOfToday) today.push(c);
+        else if (c.timestamp >= startOfYesterday) yesterday.push(c);
+        else older.push(c);
+      });
+
+      if (pinned.length > 0) container.appendChild(createHistoryGroup('បានខ្ទាស់', pinned));
+      if (today.length > 0) container.appendChild(createHistoryGroup('ថ្ងៃនេះ', today));
+      if (yesterday.length > 0) container.appendChild(createHistoryGroup('ម្សិលមិញ', yesterday));
+      if (older.length > 0) container.appendChild(createHistoryGroup('៧ ថ្ងៃ', older));
+    }
+
+    function createHistoryGroup(title, chatList) {
+      const groupDiv = document.createElement('div');
+      const header = document.createElement('div');
+      header.className = "text-xs text-gray-500 font-semibold px-2 mb-2 mt-4";
+      header.textContent = title;
+
+      const listDiv = document.createElement('div');
+      listDiv.className = "space-y-1";
+
+      chatList.forEach(chat => {
+        const itemWrapper = document.createElement('div');
+        const isActive = chat.id === activeChatId;
+        const isChecked = selectedForDelete.has(chat.id);
+
+        itemWrapper.className = `group relative flex items-center justify-between px-3.5 py-2.5 text-sm rounded-xl transition-all cursor-pointer ${
+          isMultiSelectMode ? 'hover:bg-white/50 dark:hover:bg-gray-700/50' 
+          : (isActive ? 'bg-white/90 dark:bg-gray-800 shadow-sm text-blue-600 dark:text-blue-400 font-medium' : 'text-gray-700 dark:text-gray-300 hover:bg-white/60 dark:hover:bg-gray-800/60')
+        }`;
+
+        itemWrapper.onclick = (e) => {
+          if (isMultiSelectMode) {
+            if (selectedForDelete.has(chat.id)) selectedForDelete.delete(chat.id);
+            else selectedForDelete.add(chat.id);
+            updateMultiSelectUI(); renderHistory();
+          } else if (!e.target.closest('.menu-dots-btn')) { loadChatThread(chat.id); }
+        };
+
+        if (isMultiSelectMode) {
+          itemWrapper.innerHTML = `
+            <div class="flex items-center space-x-3 truncate flex-1">
+              <input type="checkbox" ${isChecked ? 'checked' : ''} class="w-4 h-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 pointer-events-none">
+              <span class="truncate ${isActive ? 'text-blue-600 font-medium' : ''}">${escapeHtml(chat.title)}</span>
+            </div>`;
+        } else {
+          const pinIcon = chat.pinned ? `<svg class="w-4 h-4 text-blue-500 shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M16 12V4h1V2H7v2h1v8l-2 2v2h5v6h2v-6h5v-2l-2-2z"/></svg>` : '';
+          itemWrapper.innerHTML = `<span class="truncate pr-2 flex-1 flex items-center gap-2">${pinIcon}${escapeHtml(chat.title)}</span>`;
+
+          const dotsBtn = document.createElement('button');
+          dotsBtn.className = `menu-dots-btn p-1.5 rounded-lg hover:bg-blue-100/80 dark:hover:bg-gray-600 transition-colors ${isActive ? 'block text-blue-500' : 'hidden group-hover:block text-gray-500 dark:text-gray-400'}`;
+          dotsBtn.innerHTML = `<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg>`;
+          dotsBtn.onclick = (e) => { e.stopPropagation(); openContextMenu(e, chat.id); };
+          itemWrapper.appendChild(dotsBtn);
+        }
+        listDiv.appendChild(itemWrapper);
+      });
+      groupDiv.appendChild(header); groupDiv.appendChild(listDiv);
+      return groupDiv;
+    }
+
+    function openContextMenu(event, chatId) {
+      selectedMenuChatId = chatId;
+      const menu = document.getElementById('history-context-menu');
+      const chat = chats.find(c => c.id === chatId);
+      document.getElementById('pin-menu-text').textContent = chat.pinned ? 'ដោះការខ្ទាស់' : 'ខ្ទាស់';
+
+      const rect = event.currentTarget.getBoundingClientRect();
+      menu.classList.remove('hidden');
+      let top = rect.bottom + 4; let left = rect.right - 208; 
+      if (left < 10) left = 10;
+      if (top + 150 > window.innerHeight) top = rect.top - 150;
+      menu.style.top = `${top}px`; menu.style.left = `${left}px`;
+    }
+
+    function closeContextMenu() {
+      document.getElementById('history-context-menu').classList.add('hidden');
+      selectedMenuChatId = null;
+    }
+
+    function menuRenameChat() {
+      if (!selectedMenuChatId) return;
+      modalTargetId = selectedMenuChatId;
+      const chat = chats.find(c => c.id === modalTargetId);
+      if (chat) {
+        document.getElementById('rename-input').value = chat.title;
+        document.getElementById('rename-modal').classList.remove('hidden');
+        setTimeout(() => document.getElementById('rename-input').focus(), 50);
+      }
+      closeContextMenu();
+    }
+
+    function saveRename() {
+      const newTitle = document.getElementById('rename-input').value.trim();
+      if (newTitle && modalTargetId) {
+        const chat = chats.find(c => c.id === modalTargetId);
+        if (chat) { chat.title = newTitle; saveChatsToStorage(); }
+      }
+      closeModal('rename-modal'); modalTargetId = null;
+    }
+
+    function menuPinChat() {
+      if (!selectedMenuChatId) return;
+      const chat = chats.find(c => c.id === selectedMenuChatId);
+      if (chat) { chat.pinned = !chat.pinned; saveChatsToStorage(); }
+      closeContextMenu();
+    }
+
+    function menuSelectChat() {
+      if (!selectedMenuChatId) return;
+      isMultiSelectMode = true; selectedForDelete.clear(); selectedForDelete.add(selectedMenuChatId);
+      closeContextMenu(); updateMultiSelectUI(); renderHistory();
+    }
+
+    function updateMultiSelectUI() {
+      const bar = document.getElementById('multi-select-bar');
+      if (isMultiSelectMode) {
+        bar.classList.remove('hidden');
+        document.getElementById('selected-count').textContent = `ជ្រើសរើស ${selectedForDelete.size}`;
+      } else { bar.classList.add('hidden'); }
+    }
+
+    function cancelMultiSelect() {
+      isMultiSelectMode = false; selectedForDelete.clear(); updateMultiSelectUI(); renderHistory();
+    }
+
+    function menuDeleteChat() {
+      if (!selectedMenuChatId) return;
+      modalTargetId = selectedMenuChatId; deleteMode = 'single';
+      document.getElementById('delete-modal-title').textContent = 'លុបការជជែក';
+      document.getElementById('delete-modal-message').textContent = 'តើអ្នកពិតជាចង់លុបការជជែកនេះមែនទេ? សកម្មភាពនេះមិនអាចត្រឡប់វិញបានទេ។';
+      document.getElementById('delete-modal').classList.remove('hidden');
+      closeContextMenu();
+    }
+
+    function deleteSelectedChats() {
+      if (selectedForDelete.size === 0) { cancelMultiSelect(); return; }
+      deleteMode = 'multi';
+      document.getElementById('delete-modal-title').textContent = 'លុបការជជែកជាក្រុម';
+      document.getElementById('delete-modal-message').textContent = `តើអ្នកពិតជាចង់លុបការជជែកចំនួន ${selectedForDelete.size} នេះមែនទេ?`;
+      document.getElementById('delete-modal').classList.remove('hidden');
+    }
+
+    function executeDelete() {
+      if (deleteMode === 'single') {
+        chats = chats.filter(c => c.id !== modalTargetId);
+        if (activeChatId === modalTargetId) createNewChat();
+      } else if (deleteMode === 'multi') {
+        chats = chats.filter(c => !selectedForDelete.has(c.id));
+        if (selectedForDelete.has(activeChatId)) createNewChat();
+        cancelMultiSelect();
+      }
+      saveChatsToStorage(); closeModal('delete-modal'); modalTargetId = null;
+    }
+
+    function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+    function toggleMute() {
+      isMuted = !isMuted;
+      const muteIcon = document.getElementById('mute-icon');
+      muteIcon.innerHTML = isMuted
+        ? `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/>`
+        : `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/>`;
+    }
+
+    function scrollToBottom() {
+      const container = document.getElementById('chat-container');
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function escapeHtml(text) {
+      return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js')
+                .then(reg => console.log('✅ SW registered'))
+                .catch(err => console.error('❌ SW failed:', err));
+        });
+    }
+  </script>
+
+  <!-- Firebase SDK (ចំណុចកែសំខាន់) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDhpsHWWqqzE6F70ooHb_AaN02UtXzcvc0",
+      authDomain: "cheung-prey-ai.firebaseapp.com",
+      projectId: "cheung-prey-ai",
+      storageBucket: "cheung-prey-ai.firebasestorage.app",
+      messagingSenderId: "704161714255",
+      appId: "1:704161714255:web:c1c530460266868b019a3a"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+
+    // 🟢 កែឈ្មោះ Function នេះឱ្យត្រូវនឹង HTML
+    window.loginWithGoogle = async () => {
+      try {
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+        
+        currentUser = { name: user.displayName, email: user.email };
+        localStorage.setItem('cp_currentUser', JSON.stringify(currentUser));
+        
+        window.location.reload(); 
+      } catch (error) {
+        alert("ការចូលបរាជ័យ: " + error.message);
+      }
+    };
+  </script>
 </body>
 </html>
